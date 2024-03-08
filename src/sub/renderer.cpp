@@ -55,7 +55,7 @@ void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h)
     SDL_DestroyTexture(texture);
 }
 
-void Renderer::loadFromCSV(char p_path[], std::map<const char*, std::variant<const char*, Entity>> p_mappings)
+std::vector<std::vector<std::string>> Renderer::loadFromCSV(char p_path[])
 {
     std::ifstream file;
     file.open(p_path);
@@ -78,12 +78,16 @@ void Renderer::loadFromCSV(char p_path[], std::map<const char*, std::variant<con
         csvData.push_back(row);
     };
     
-    //Used for object positioning
+    file.close();
+    return csvData;
+}
+
+void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, const char*> p_mappings) {
     int cellcounter = 0;
     int rowcounter = 0;
 
     //Loop through 2d vector array
-    for (const auto &row : csvData)
+    for (const auto &row : p_mapData)
     {
         rowcounter++;
         cellcounter = 0;
@@ -94,15 +98,37 @@ void Renderer::loadFromCSV(char p_path[], std::map<const char*, std::variant<con
             {
                 if (cell == mappingData.first)
                 {
-                    if (typeid(mappingData.second) == typeid(Entity)) {
-
-                    }
-                    else {
                         render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE);
-                    }
                 }
             }
         }
     }
-    file.close();
+}
+void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, const char*> p_mappings) {
+    int cellcounter = 0;
+    int rowcounter = 0;
+
+    //Loop through 2d vector array
+    for (const auto &row : p_mapData)
+    {
+        rowcounter++;
+        cellcounter = 0;
+        for (const auto &cell : row)
+        {
+            cellcounter++;
+            for (const auto &mappingData : p_mappings)
+            {
+                if (cell == mappingData.first)
+                {
+                    Entity worthlessEntity;
+                    worthlessEntity.initEntity(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET,(rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, g_renderer);
+                }
+            }
+        }
+    }
+}
+void Renderer::updateEntities() {
+    for (auto &p_entity : allEntities) {
+        p_entity->update();
+    }
 }

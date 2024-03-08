@@ -1,3 +1,5 @@
+#ifndef CONST_HPP
+#define CONST_HPP
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -8,7 +10,8 @@
     int_ : Generic int.
 */
 
-const int int_DEFAULT_TEXTURE_SIZE = 64;
-const int int_DEFAULT_TEXTURE_OFFSET = 64;
-const int int_DEFAULT_TEXTURE_MULTIPLIER = 64;
-const char* str_WINDOW_NAME = "Referencetopia";
+inline const int int_DEFAULT_TEXTURE_SIZE = 64;
+inline const int int_DEFAULT_TEXTURE_OFFSET = 64;
+inline const int int_DEFAULT_TEXTURE_MULTIPLIER = 64;
+inline const char* str_WINDOW_NAME = "Referencetopia";
+#endif

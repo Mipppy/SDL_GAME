@@ -1,19 +1,29 @@
 #include <SDL2/SDL.h>
 #include <SDL2/sdl_image.h>
+#include <vector>
+#include <memory>
+#include <iostream>
 #include "entity.hpp"
 #include "gameData/const.hpp"
 
+std::vector<std::unique_ptr<Entity>> allEntities;
+
 Entity::Entity() {}
 
-void Entity::initEntity(char* p_path, int p_x, int p_y, SDL_Renderer* o_renderer ) {
+void Entity::initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_renderer)
+{
+    g_x = p_x;
+    g_y = p_y;
     p_renderer = o_renderer;
     g_texture = IMG_LoadTexture(o_renderer, p_path);
+    allEntities.push_back(std::make_unique<Entity>(*this));
 }
-void Entity::update() 
+void Entity::update()
 {
     g_x = (g_x + g_velX);
     g_y = (g_y + g_velY);
-    
+    g_velX = g_velX *.6;
+    g_velY = g_velY*.6;
     SDL_Rect src;
     src.x = 0;
     src.y = 0;
@@ -25,12 +35,13 @@ void Entity::update()
     dst.w = int_DEFAULT_TEXTURE_SIZE;
     dst.h = int_DEFAULT_TEXTURE_SIZE;
     SDL_RenderCopy(p_renderer, g_texture, &src, &dst);
+
 }
-void Entity::setTexture(char * p_path)
+void Entity::setTexture(char *p_path)
 {
     g_texture = IMG_LoadTexture(p_renderer, p_path);
 }
 
-Entity::~Entity() {
-    SDL_DestroyTexture(g_texture);
+Entity::~Entity()
+{
 }

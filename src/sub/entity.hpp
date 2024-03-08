@@ -1,14 +1,22 @@
+#ifndef ENTITY_HPP
+#define ENTITY_HPP
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
+#include <vector>
+#include <memory>
 class Entity {
-    SDL_Texture* g_texture;
-    int g_x,g_y, g_velX, g_velY;
-    SDL_Renderer* p_renderer;
-    void initEntity(char* p_path, int p_x, int p_y, SDL_Renderer* o_renderer);
-    void setTexture(char* p_path);
-    void update();
-    void destroyEntity();
-    Entity();
-    ~Entity();
+    public:
+        SDL_Texture* g_texture;
+        int g_x = 0,g_y = 0, g_velX = 0, g_velY = 0;
+        SDL_Renderer* p_renderer;
+        void initEntity(const char* p_path, int p_x, int p_y, SDL_Renderer* o_renderer);
+        void setTexture(char* p_path);
+        void update();
+        void destroyEntity();
+        Entity();
+        ~Entity();
 }; 
+
+extern std::vector<std::unique_ptr<Entity>> allEntities;
+
+#endif
