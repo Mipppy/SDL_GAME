@@ -18,12 +18,14 @@ int main(int argc, char *argv[])
 	Renderer rend;
 	rend.initRenderer();
     std::map<const char*, const char*> mappings;
+	std::map<const char*, std::pair<const char*, const char*>> mappings2;
 	mappings.insert(std::make_pair("1", "resources/rock.png"));
+    mappings2.emplace("1", std::make_pair("resources/rock.png", "ge"));
 	char path[] = "resources/test.csv";
 	char path2[] = "resources/teste.csv";
 	std::vector<std::vector<std::string>> mapData = rend.loadFromCSV(path);
 	std::vector<std::vector<std::string>> entityMapData = rend.loadFromCSV(path2);
-	rend.renderCSVEntities(entityMapData, mappings);
+	rend.renderCSVEntities(entityMapData, mappings2);
 	while (running)
 	{
 		EventHandler();

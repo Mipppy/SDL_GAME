@@ -104,7 +104,7 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
         }
     }
 }
-void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, const char*> p_mappings) {
+void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, std::pair<const char*, const char*>> p_mappings) {
     int cellcounter = 0;
     int rowcounter = 0;
 
@@ -120,8 +120,8 @@ void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData
             {
                 if (cell == mappingData.first)
                 {
-                    Entity worthlessEntity;
-                    worthlessEntity.initEntity(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET,(rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, g_renderer);
+                    Entity* worthlessEntity = createEntity(mappingData.second.second);
+                    worthlessEntity->initEntity(mappingData.second.first, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET,(rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, g_renderer);
                 }
             }
         }

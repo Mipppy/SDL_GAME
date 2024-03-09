@@ -16,7 +16,7 @@ class Renderer {
         //renderCSVStaticObjects is a constant job, being run constantly, taking care of static rendering
         void renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, const char*> p_mappings);
         //renderCSVEntities is a one and done job, initalizing the Entity and that's it.
-        void renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, const char*> p_mappings);
+        void renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char*,  std::pair<const char*, const char*>> p_mappings);
         void updateEntities();
         void rendererCleanup();
         void clearRenderer();

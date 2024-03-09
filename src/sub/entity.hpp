@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
+#include "entity.hpp"
 #include <memory>
 class Entity {
     public:
@@ -16,6 +17,8 @@ class Entity {
         Entity();
         ~Entity();
 }; 
+
+Entity* createEntity(const char* p_type);
 
 extern std::vector<std::unique_ptr<Entity>> allEntities;
 

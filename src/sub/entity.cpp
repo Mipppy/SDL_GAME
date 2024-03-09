@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include "entity.hpp"
+#include "player.hpp"
 #include "gameData/const.hpp"
 
 std::vector<std::unique_ptr<Entity>> allEntities;
@@ -44,4 +45,15 @@ void Entity::setTexture(char *p_path)
 
 Entity::~Entity()
 {
+}
+
+Entity* createEntity(const char* p_type) {
+    std::cout << p_type << std::endl;
+    if (strcmp(p_type, "p") == 0) {
+        return new Player;
+    }
+    else if (strcmp(p_type, "ge") == 0) {
+        return new Entity;
+    }
+    return nullptr;
 }
