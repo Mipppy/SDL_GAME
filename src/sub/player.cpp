@@ -33,6 +33,18 @@ void Player::Entity::tickUpdate()
     {
         g_velX = g_velX + lonePlayerInstance->speed;
     }
+    if (g_velX > lonePlayerInstance->speedCap) {
+        g_velX = lonePlayerInstance->speedCap;
+    }
+    if (g_velX < -lonePlayerInstance->speedCap) {
+        g_velX = -lonePlayerInstance->speedCap;
+    }
+    if (g_velY > lonePlayerInstance->speedCap) {
+        g_velY = lonePlayerInstance->speedCap;
+    }
+    if (g_velY < -lonePlayerInstance->speedCap) {
+        g_velY = -lonePlayerInstance->speedCap;
+    }
     if (!lonePlayerInstance->wPress && !lonePlayerInstance->sPress)
     {
         g_velY = g_velY * lonePlayerInstance->traction;
@@ -41,16 +53,5 @@ void Player::Entity::tickUpdate()
     {
         g_velX = g_velX * lonePlayerInstance->traction;
     }
-    if (g_velX > lonePlayerInstance->speedCap) {
-        g_velX = 2;
-    }
-    if (g_velX < -lonePlayerInstance->speedCap) {
-        g_velX = -2;
-    }
-    if (g_velY > lonePlayerInstance->speedCap) {
-        g_velY = 2;
-    }
-    if (g_velY < -lonePlayerInstance->speedCap) {
-        g_velY = -2;
-    }
+
 }

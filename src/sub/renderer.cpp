@@ -9,6 +9,7 @@
 #include "renderer.hpp"
 #include "entity.hpp"
 #include "gameData/const.hpp"
+#include "collison.hpp"
 Renderer::Renderer(){};
 
 void Renderer::initRenderer()
@@ -62,7 +63,7 @@ std::vector<std::vector<std::string>> Renderer::loadFromCSV(char p_path[])
     std::string line;
     std::vector<std::vector<std::string>> csvData;
 
-    //Gets the first line of the file so a little binary isn't read.
+    // Gets the first line of the file so a little binary isn't read.
     getline(file, line);
     while (getline(file, line))
     {
@@ -77,16 +78,17 @@ std::vector<std::vector<std::string>> Renderer::loadFromCSV(char p_path[])
 
         csvData.push_back(row);
     };
-    
+
     file.close();
     return csvData;
 }
 
-void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, const char*> p_mappings) {
+void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char *, const char *> p_mappings)
+{
     int cellcounter = 0;
     int rowcounter = 0;
 
-    //Loop through 2d vector array
+    // Loop through 2d vector array
     for (const auto &row : p_mapData)
     {
         rowcounter++;
@@ -98,17 +100,20 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
             {
                 if (cell == mappingData.first)
                 {
-                        render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE);
+                    SDL_Rect *p_hitbox = new SDL_Rect{(cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET,(rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET,int_DEFAULT_TEXTURE_SIZE,int_DEFAULT_TEXTURE_SIZE};
+                    g_staticHitboxes.push_back(p_hitbox);
+                    render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE);
                 }
             }
         }
     }
 }
-void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, std::pair<const char*, const char*>> p_mappings) {
+void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char *, std::pair<const char *, const char *>> p_mappings)
+{
     int cellcounter = 0;
     int rowcounter = 0;
 
-    //Loop through 2d vector array
+    // Loop through 2d vector array
     for (const auto &row : p_mapData)
     {
         rowcounter++;
@@ -120,16 +125,18 @@ void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData
             {
                 if (cell == mappingData.first)
                 {
-                    Entity* worthlessEntity = createEntity(mappingData.second.second);
-                    worthlessEntity->initEntity(mappingData.second.first, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET,(rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, g_renderer);
+                    Entity *worthlessEntity = createEntity(mappingData.second.second);
+                    worthlessEntity->initEntity(mappingData.second.first, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, g_renderer);
                 }
             }
         }
     }
 }
-void Renderer::updateEntities() {
-    for (auto &p_entity : allEntities) {
+void Renderer::updateEntities()
+{
+    for (auto &p_entity : allEntities)
+    {
         p_entity->tickUpdate(); // Unique class actions
-        p_entity->update(); //Shared update actions 
+        p_entity->update();     // Shared update actions
     }
 }

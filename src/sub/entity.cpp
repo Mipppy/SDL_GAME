@@ -33,8 +33,21 @@ void Entity::update()
     dst.y = g_y;
     dst.w = int_DEFAULT_TEXTURE_SIZE;
     dst.h = int_DEFAULT_TEXTURE_SIZE;
+    g_hitbox = dst;
     SDL_RenderCopy(p_renderer, g_texture, &src, &dst);
 
+    if (g_velY < 0) {
+        currentYDirection = 0;
+    }
+    else {
+        currentYDirection = 1;
+    }
+    if (g_velX < 0){
+        currentXDirection = 0;
+    }
+    else {
+        currentXDirection = 1;
+    }
 }
 void Entity::setTexture(char *p_path)
 {

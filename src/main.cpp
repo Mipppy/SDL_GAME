@@ -10,7 +10,10 @@
 #include "sub/renderer.hpp"
 #include "sub/entity.hpp"
 #include "sub/player.hpp"
-
+#include "sub/collison.hpp"
+unsigned int a = SDL_GetTicks();
+unsigned int b = SDL_GetTicks();
+double delta = 0;
 bool running = true;
 void EventHandler();
 
@@ -18,6 +21,7 @@ int main(int argc, char *argv[])
 {
 	Renderer rend;
 	rend.initRenderer();
+	Collison collisons;
 	std::map<const char *, const char *> mappings;
 	std::map<const char *, std::pair<const char *, const char *>> mappings2;
 	mappings.insert(std::make_pair("1", "resources/rock.png"));
@@ -29,13 +33,22 @@ int main(int argc, char *argv[])
 	rend.renderCSVEntities(entityMapData, mappings2);
 	while (running)
 	{
-		EventHandler();
-		rend.clearRenderer();
-		rend.renderCSVStaticObjects(mapData, mappings);
-		rend.updateEntities();
-		rend.displayRenderedObjects();
-	}
+		a = SDL_GetTicks();
+		delta += a - b;
 
+		if (delta > 1000 / 120.0)
+		{
+		    g_staticHitboxes.clear();
+			EventHandler();
+			rend.clearRenderer();
+			rend.renderCSVStaticObjects(mapData, mappings);
+			rend.updateEntities();
+			collisons.checkCollisons();
+			rend.displayRenderedObjects();
+			delta = 0;
+		}
+		b = SDL_GetTicks();
+	}
 	return 0;
 }
 
