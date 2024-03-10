@@ -14,6 +14,7 @@ class Entity {
         void setTexture(char* p_path);
         void update();
         void destroyEntity();
+        virtual void tickUpdate();
         Entity();
         ~Entity();
 }; 

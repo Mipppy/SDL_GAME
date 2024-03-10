@@ -7,7 +7,7 @@
 #include "player.hpp"
 #include "gameData/const.hpp"
 
-std::vector<std::unique_ptr<Entity>> allEntities;
+std::vector<std::unique_ptr<Entity>> allEntities; // All "ENTITY" bases of extensions.
 
 Entity::Entity() {}
 
@@ -23,8 +23,6 @@ void Entity::update()
 {
     g_x = (g_x + g_velX);
     g_y = (g_y + g_velY);
-    g_velX = g_velX *.6;
-    g_velY = g_velY*.6;
     SDL_Rect src;
     src.x = 0;
     src.y = 0;
@@ -48,12 +46,8 @@ Entity::~Entity()
 }
 
 Entity* createEntity(const char* p_type) {
-    std::cout << p_type << std::endl;
     if (strcmp(p_type, "p") == 0) {
         return new Player;
-    }
-    else if (strcmp(p_type, "ge") == 0) {
-        return new Entity;
     }
     return nullptr;
 }

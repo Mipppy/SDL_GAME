@@ -3,12 +3,16 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "entity.hpp"
+
 class Player : public Entity {
     public: 
+        float speed = 1;
+        float traction = 0.6;
+        float speedCap = 2;
         bool wPress = false, dPress = false, aPress = false, sPress = false;
         Player();
         ~Player();
-        void playerKeyhandler();
-        void movementHandler();
+        void keyEventHandler();
 };
+extern Player* lonePlayerInstance;
 #endif
