@@ -17,8 +17,6 @@ void Renderer::initRenderer()
     SDL_Init(SDL_INIT_EVERYTHING);
     g_window = SDL_CreateWindow(str_WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1800, 720, SDL_WINDOW_SHOWN);
     g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    // SDL_Surface * icon = IMG_Load("resources/icon.png");
-    // SDL_SetWindowIcon(g_window, icon);
 }
 
 void Renderer::rendererCleanup()
@@ -136,8 +134,15 @@ void Renderer::updateEntities()
 {
     for (auto &p_entity : allEntities)
     {
-        p_entity->tickUpdate(); // Unique class actions
+        p_entity->tickUpdate(); 
 		collisons.checkCollisons(p_entity.get());
-        p_entity->update();     // Shared update actions
+        p_entity->update();
     }
+}
+void Renderer::cleanUpStaticHitboxes() {
+    //Whoops! Removing this causes a memory leak!
+    for (SDL_Rect* p_staticHitbox : g_staticHitboxes) {
+        delete p_staticHitbox;
+    }
+    g_staticHitboxes.clear();
 }

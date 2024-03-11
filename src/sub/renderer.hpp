@@ -17,10 +17,11 @@ class Renderer {
         std::vector<std::vector<std::string>> loadFromCSV(char p_path[]);
         //renderCSVStaticObjects is a constant job, being run constantly, taking care of static rendering
         void renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char*, const char*> p_mappings);
-        //renderCSVEntities is a one and done job, initalizing the Entity and that's it.
+        //renderCSVEntities is a one and done job, initalizing the Entity and that's it, because entities take care of rendering themselves.
         void renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char*,  std::pair<const char*, const char*>> p_mappings);
         void updateEntities();
         void rendererCleanup();
+        void cleanUpStaticHitboxes();
         void clearRenderer();
         void render(const char* p_path, int p_x, int p_y, int p_h, int p_w);
         void displayRenderedObjects();

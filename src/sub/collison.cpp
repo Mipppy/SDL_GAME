@@ -22,32 +22,31 @@ void Collison::checkCollisons(Entity *p_entity)
         int bottomB = p_static->y + p_static->h;
         if (bottomA <= topB || leftA >= rightB || topA >= bottomB || rightA <= leftB)
         {
-            std::cout << "no collison" << std::endl;
+            //nothing
         }
         else
         {
-            std::cout << p_entity->currentXDirection << ", " << p_entity->currentYDirection << std::endl;
+            //Calculate overlap and pick side based on greatest
             int overlapLeft = rightA - leftB;
             int overlapRight = rightB - leftA;
             int overlapTop = bottomA - topB;
             int overlapBottom = bottomB - topA;
-            int maxOverlap = std::max({overlapLeft, overlapRight, overlapTop, overlapBottom});
-
-            if (maxOverlap == overlapLeft)
+            int minOverlap = std::min({overlapLeft, overlapRight, overlapTop, overlapBottom});
+            if (minOverlap == overlapLeft)
             {
-                std::cout << "Collided with right side" << std::endl;
+                p_entity->g_x -= overlapLeft;
             }
-            else if (maxOverlap == overlapRight)
+            else if (minOverlap == overlapRight)
             {
-                std::cout << "Collided with left side" << std::endl;
+                p_entity->g_x += overlapRight;        
             }
-            else if (maxOverlap == overlapTop)
+            if (minOverlap == overlapTop)
             {
-                std::cout << "Collided with bottom side" << std::endl;
+                p_entity->g_y -= overlapTop; 
             }
-            else if (maxOverlap == overlapBottom)
+            else if (minOverlap == overlapBottom)
             {
-                std::cout << "Collided with top side" << std::endl;
+                p_entity->g_y += overlapBottom; 
             }
         }
     }
