@@ -15,4 +15,4 @@ class Player : public Entity {
         void keyEventHandler();
 };
 extern Player* lonePlayerInstance;
-#endif
+#endif 

@@ -137,6 +137,7 @@ void Renderer::updateEntities()
     for (auto &p_entity : allEntities)
     {
         p_entity->tickUpdate(); // Unique class actions
+		collisons.checkCollisons(p_entity.get());
         p_entity->update();     // Shared update actions
     }
 }

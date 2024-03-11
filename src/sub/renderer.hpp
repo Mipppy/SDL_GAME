@@ -6,11 +6,13 @@
 #include <vector>
 #include <string>
 #include "entity.hpp"
+#include "collison.hpp"
 class Renderer {
     public:
         Renderer();
         SDL_Window* g_window;
         SDL_Renderer* g_renderer;
+        Collison collisons;
         void initRenderer();
         std::vector<std::vector<std::string>> loadFromCSV(char p_path[]);
         //renderCSVStaticObjects is a constant job, being run constantly, taking care of static rendering

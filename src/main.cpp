@@ -21,7 +21,6 @@ int main(int argc, char *argv[])
 {
 	Renderer rend;
 	rend.initRenderer();
-	Collison collisons;
 	std::map<const char *, const char *> mappings;
 	std::map<const char *, std::pair<const char *, const char *>> mappings2;
 	mappings.insert(std::make_pair("1", "resources/rock.png"));
@@ -36,14 +35,13 @@ int main(int argc, char *argv[])
 		a = SDL_GetTicks();
 		delta += a - b;
 
-		if (delta > 1000 / 120.0)
+		if (delta > 1000 / 240.0)
 		{
 		    g_staticHitboxes.clear();
 			EventHandler();
 			rend.clearRenderer();
 			rend.renderCSVStaticObjects(mapData, mappings);
 			rend.updateEntities();
-			collisons.checkCollisons();
 			rend.displayRenderedObjects();
 			delta = 0;
 		}
