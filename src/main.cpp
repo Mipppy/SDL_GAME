@@ -5,21 +5,21 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <variant>
 #include <string>
 #include "sub/renderer.hpp"
 #include "sub/entity.hpp"
 #include "sub/player.hpp"
 #include "sub/collison.hpp"
+#include "sub/gui.hpp"
 unsigned int a = SDL_GetTicks();
 unsigned int b = SDL_GetTicks();
 double delta = 0;
 bool running = true;
 void EventHandler();
-
+Renderer rend;
+GUI gui;
 int main(int argc, char *argv[])
 {
-	Renderer rend;
 	rend.initRenderer();
 	std::map<const char *, const char *> mappings;
 	std::map<const char *, std::pair<const char *, const char *>> mappings2;
@@ -27,22 +27,35 @@ int main(int argc, char *argv[])
 	mappings2.emplace("1", std::make_pair("resources/rock.png", "p"));
 	char path[] = "resources/test.csv";
 	char path2[] = "resources/teste.csv";
+	allGUIelements.clear();
+	allButtons.clear();
 	std::vector<std::vector<std::string>> mapData = rend.loadFromCSV(path);
 	std::vector<std::vector<std::string>> entityMapData = rend.loadFromCSV(path2);
 	rend.renderCSVEntities(entityMapData, mappings2);
+	gui.createButton(128, 128, 64, 64, "resources/button.png");
+	gui.createButton(256, 128, 64, 64, "resources/button.png");
+	gui.createButton(128, 256, 64, 64, "resources/button.png");
 	while (running)
 	{
 		a = SDL_GetTicks();
 		delta += a - b;
 
-		if (delta > 1000 / 200.0)
+		if (delta > 1000 / 500.0)
 		{
-		    rend.cleanUpStaticHitboxes();
-			std::cout<<1000/delta << std::endl;
+			/*
+				Render Order:
+				GUI
+				HUD
+				ENTITIES
+				COLLIDABLE OBJECTS
+				BACKGROUND OBJECTS
+			*/
+			rend.cleanUpStaticHitboxes();
 			EventHandler();
 			rend.clearRenderer();
 			rend.renderCSVStaticObjects(mapData, mappings);
 			rend.updateEntities();
+			rend.renderGUIElements();
 			rend.displayRenderedObjects();
 			delta = 0;
 		}
@@ -97,6 +110,10 @@ void EventHandler()
 				break;
 			}
 			break;
+		case SDL_MOUSEBUTTONDOWN:
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+			gui.checkIfButtonClicked(x,y);
 		}
 	}
 }

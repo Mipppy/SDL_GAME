@@ -10,6 +10,7 @@
 #include "entity.hpp"
 #include "gameData/const.hpp"
 #include "collison.hpp"
+#include "gui.hpp"
 Renderer::Renderer(){};
 
 void Renderer::initRenderer()
@@ -145,4 +146,10 @@ void Renderer::cleanUpStaticHitboxes() {
         delete p_staticHitbox;
     }
     g_staticHitboxes.clear();
+}
+
+void Renderer::renderGUIElements() {
+    for (GUI_BASE* p_guiElement : allGUIelements) {
+        render(p_guiElement->g_path, p_guiElement->g_x, p_guiElement->g_y, p_guiElement->g_hitbox.w, p_guiElement->g_hitbox.h);
+    }
 }

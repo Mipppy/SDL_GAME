@@ -57,6 +57,11 @@
         "xtree": "cpp",
         "optional": "cpp",
         "variant": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "list": "cpp",
+        "xhash": "cpp",
+        "iomanip": "cpp",
+        "random": "cpp",
+        "unordered_map": "cpp"
     }
 }
