@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 		a = SDL_GetTicks();
 		delta += a - b;
 
-		if (delta > 1000 / 165.0)
+		if (delta > 1000 / 200.0)
 		{
 		    rend.cleanUpStaticHitboxes();
 			std::cout<<1000/delta << std::endl;
