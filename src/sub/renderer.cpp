@@ -99,7 +99,7 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
             {
                 if (cell == mappingData.first)
                 {
-                    SDL_Rect *p_hitbox = new SDL_Rect{(cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET,(rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET,int_DEFAULT_TEXTURE_SIZE,int_DEFAULT_TEXTURE_SIZE};
+                    SDL_Rect *p_hitbox = new SDL_Rect{(cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE};
                     g_staticHitboxes.push_back(p_hitbox);
                     render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE);
                 }
@@ -133,23 +133,27 @@ void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData
 }
 void Renderer::updateEntities()
 {
-    for (auto &p_entity : allEntities)
+    for (auto p_entity : allEntities)
     {
-        p_entity->tickUpdate(); 
-		collisons.checkCollisons(p_entity.get());
+        p_entity->tickUpdate();
+        collisons.checkCollisons(p_entity);
         p_entity->update();
     }
 }
-void Renderer::cleanUpStaticHitboxes() {
-    //Whoops! Removing this causes a memory leak!
-    for (SDL_Rect* p_staticHitbox : g_staticHitboxes) {
+void Renderer::cleanUpStaticHitboxes()
+{
+    // Whoops! Removing this causes a memory leak!
+    for (SDL_Rect *p_staticHitbox : g_staticHitboxes)
+    {
         delete p_staticHitbox;
     }
     g_staticHitboxes.clear();
 }
 
-void Renderer::renderGUIElements() {
-    for (GUI_BASE* p_guiElement : allGUIelements) {
+void Renderer::renderGUIElements()
+{
+    for (GUI_BASE *p_guiElement : allGUIelements)
+    {
         render(p_guiElement->g_path, p_guiElement->g_x, p_guiElement->g_y, p_guiElement->g_hitbox.w, p_guiElement->g_hitbox.h);
     }
 }

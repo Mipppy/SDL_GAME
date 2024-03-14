@@ -7,8 +7,7 @@
 #include "player.hpp"
 #include "gameData/const.hpp"
 
-std::vector<std::unique_ptr<Entity>> allEntities; // All "ENTITY" bases of extensions.
-
+std::vector<Entity*> allEntities;
 Entity::Entity() {}
 
 void Entity::initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_renderer)
@@ -17,7 +16,8 @@ void Entity::initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_re
     g_y = p_y;
     p_renderer = o_renderer;
     g_texture = IMG_LoadTexture(o_renderer, p_path);
-    allEntities.push_back(std::make_unique<Entity>(*this));
+    // MUST BE IN **EVERY** CONSTRUCTOR!
+    // allEntities.push_back(std::make_unique<Entity>(*this));
 }
 void Entity::update()
 {
@@ -54,13 +54,12 @@ void Entity::setTexture(char *p_path)
     g_texture = IMG_LoadTexture(p_renderer, p_path);
 }
 
-Entity::~Entity()
-{
-}
-
 Entity* createEntity(const char* p_type) {
     if (strcmp(p_type, "p") == 0) {
         return new Player;
     }
     return nullptr;
+}
+
+void Entity::tickUpdate() {
 }

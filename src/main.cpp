@@ -11,6 +11,7 @@
 #include "sub/player.hpp"
 #include "sub/collison.hpp"
 #include "sub/gui.hpp"
+#include "sub/npc.hpp"	
 unsigned int a = SDL_GetTicks();
 unsigned int b = SDL_GetTicks();
 double delta = 0;
@@ -33,8 +34,8 @@ int main(int argc, char *argv[])
 	std::vector<std::vector<std::string>> entityMapData = rend.loadFromCSV(path2);
 	rend.renderCSVEntities(entityMapData, mappings2);
 	gui.createButton(128, 128, 64, 64, "resources/button.png");
-	gui.createButton(256, 128, 64, 64, "resources/button.png");
-	gui.createButton(128, 256, 64, 64, "resources/button.png");
+	gui.createButton(256, 128, 128, 128, "resources/button.png");
+	gui.createButton(128, 256, 128, 64, "resources/button.png");
 	while (running)
 	{
 		a = SDL_GetTicks();
@@ -107,6 +108,9 @@ void EventHandler()
 				break;
 			case SDLK_d:
 				lonePlayerInstance->dPress = false;
+				break;
+			case SDLK_e:
+			
 				break;
 			}
 			break;

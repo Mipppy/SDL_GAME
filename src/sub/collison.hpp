@@ -5,12 +5,13 @@
 #include <vector>
 #include "entity.hpp"
 
-extern std::vector<SDL_Rect*> g_staticHitboxes; 
+extern std::vector<SDL_Rect *> g_staticHitboxes;
 
-class Collison {
-    public:
-        Collison();
-        ~Collison();
-        void checkCollisons(Entity* p_entity);
+class Collison
+{
+public:
+    Collison();
+    ~Collison();
+    void checkCollisons(Entity *p_entity);
 };
 #endif

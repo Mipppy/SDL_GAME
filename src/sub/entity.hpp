@@ -5,25 +5,25 @@
 #include <vector>
 #include "entity.hpp"
 #include <memory>
-class Entity {
-    public:
-        SDL_Texture* g_texture;
-        int g_x = 0,g_y = 0, g_velX = 0, g_velY = 0;
-        SDL_Rect g_hitbox = {0,0,0,0};
-        int currentXDirection = 0;
-        int currentYDirection = 0;
-        SDL_Renderer* p_renderer;
-        void initEntity(const char* p_path, int p_x, int p_y, SDL_Renderer* o_renderer);
-        void setTexture(char* p_path);
-        void update();
-        void destroyEntity();
-        virtual void tickUpdate();
-        Entity();
-        ~Entity();
-}; 
+class Entity
+{
+public:
+    SDL_Texture *g_texture;
+    int g_x = 0, g_y = 0, g_velX = 0, g_velY = 0;
+    SDL_Rect g_hitbox = {0, 0, 0, 0};
+    int currentXDirection = 0;
+    int currentYDirection = 0;
+    SDL_Renderer *p_renderer;
+    void initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_renderer);
+    void setTexture(char *p_path);
+    void update();
+    void destroyEntity();
+    virtual void tickUpdate();
+    Entity();
+};
 
-Entity* createEntity(const char* p_type);
+Entity *createEntity(const char *p_type);
 
-extern std::vector<std::unique_ptr<Entity>> allEntities;
+extern std::vector<Entity*> allEntities;
 
 #endif

@@ -22,11 +22,11 @@ void Collison::checkCollisons(Entity *p_entity)
         int bottomB = p_static->y + p_static->h;
         if (bottomA <= topB || leftA >= rightB || topA >= bottomB || rightA <= leftB)
         {
-            //nothing
+            // nothing
         }
         else
         {
-            //Calculate overlap and pick side based on greatest
+            // Calculate overlap and pick side based on greatest
             int overlapLeft = rightA - leftB;
             int overlapRight = rightB - leftA;
             int overlapTop = bottomA - topB;
@@ -38,15 +38,15 @@ void Collison::checkCollisons(Entity *p_entity)
             }
             else if (minOverlap == overlapRight)
             {
-                p_entity->g_x += overlapRight;        
+                p_entity->g_x += overlapRight;
             }
             if (minOverlap == overlapTop)
             {
-                p_entity->g_y -= overlapTop; 
+                p_entity->g_y -= overlapTop;
             }
             else if (minOverlap == overlapBottom)
             {
-                p_entity->g_y += overlapBottom; 
+                p_entity->g_y += overlapBottom;
             }
         }
     }

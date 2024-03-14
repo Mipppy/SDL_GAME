@@ -52,7 +52,7 @@ GUI_BUTTON::~GUI_BUTTON()
 
 void GUI_BUTTON::onClick()
 {
-    std::cout << "clicked button: "<< this << std::endl;
+    std::cout << "clicked button: " << this << std::endl;
 }
 void GUI_BUTTON::checkClick(int p_x, int p_y)
 {
