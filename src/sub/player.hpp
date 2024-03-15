@@ -10,6 +10,7 @@ public:
     float speed = 1;
     float traction = 0.6;
     float speedCap = 3;
+    bool interacting = false;
     bool wPress = false, dPress = false, aPress = false, sPress = false;
     Player();
     ~Player();

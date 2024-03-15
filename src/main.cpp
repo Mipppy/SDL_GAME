@@ -11,7 +11,7 @@
 #include "sub/player.hpp"
 #include "sub/collison.hpp"
 #include "sub/gui.hpp"
-#include "sub/npc.hpp"	
+#include "sub/npc.hpp"
 unsigned int a = SDL_GetTicks();
 unsigned int b = SDL_GetTicks();
 double delta = 0;
@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
 	std::map<const char *, std::pair<const char *, const char *>> mappings2;
 	mappings.insert(std::make_pair("1", "resources/rock.png"));
 	mappings2.emplace("1", std::make_pair("resources/rock.png", "p"));
+	mappings2.emplace("2", std::make_pair("resources/rock.png", "npc"));
 	char path[] = "resources/test.csv";
 	char path2[] = "resources/teste.csv";
 	allGUIelements.clear();
@@ -92,6 +93,9 @@ void EventHandler()
 			case SDLK_s:
 				lonePlayerInstance->sPress = true;
 				break;
+			case SDLK_e:
+				checkIfShouldInteract();
+				break;
 			}
 			break;
 		case SDL_KEYUP:
@@ -109,15 +113,14 @@ void EventHandler()
 			case SDLK_d:
 				lonePlayerInstance->dPress = false;
 				break;
-			case SDLK_e:
-			
+			case SDLK_BACKQUOTE:
 				break;
 			}
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-			gui.checkIfButtonClicked(x,y);
+			gui.checkIfButtonClicked(x, y);
 		}
 	}
 }

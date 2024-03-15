@@ -122,7 +122,7 @@ void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData
             cellcounter++;
             for (const auto &mappingData : p_mappings)
             {
-                if (cell == mappingData.first)
+                if (cell == mappingData.first || strcmp(cell.c_str(), mappingData.second.second) == 0)
                 {
                     Entity *worthlessEntity = createEntity(mappingData.second.second);
                     worthlessEntity->initEntity(mappingData.second.first, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, g_renderer);

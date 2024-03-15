@@ -5,6 +5,7 @@
 #include <iostream>
 #include "entity.hpp"
 #include "player.hpp"
+#include "npc.hpp"
 #include "gameData/const.hpp"
 
 std::vector<Entity*> allEntities;
@@ -57,6 +58,16 @@ void Entity::setTexture(char *p_path)
 Entity* createEntity(const char* p_type) {
     if (strcmp(p_type, "p") == 0) {
         return new Player;
+    }
+    else if (strcmp(p_type, "npc") == 0) {
+        std::vector<const char *> dialogue;
+        dialogue.push_back("test dialogue #1 !");
+        dialogue.push_back("test dialogue #2 !");
+        dialogue.push_back("test dialogue #3 !");
+        dialogue.push_back("test dialogue #4 !");
+        dialogue.push_back("test dialogue #5 !");
+        dialogue.push_back("test dialogue #6 !");
+        return new NPC(dialogue, 100, false);
     }
     return nullptr;
 }

@@ -8,21 +8,21 @@
 
 class NPC : public Entity {
     public:
-    std::vector<char*> dialogue;
-    bool interacting;
-    NPC(std::vector<char *> p_dialogueVector);
+    std::vector<const char*> dialogue;
+    bool g_interacting = false;
+    double g_interactDistance = 0;
+    int dialogueIndex = 0;
+    bool g_autoInteract = false;
+    NPC(std::vector<const char *> p_dialogueVector, double p_interactDistance, bool p_autoInteract);
     ~NPC();
     void tickUpdate() override;
-    void isCloseToPlayer();
+    bool isCloseToPlayer();
     void displayDialogue();
     void finishInteracting();
+    bool shouldFinishInteracting();
 };
 
-void checkIfShouldInteract() {
-    for (auto& p_npc : allNPCs) {
-        
-    }
-}
+void checkIfShouldInteract();
 
 extern std::vector<NPC*> allNPCs;
 
