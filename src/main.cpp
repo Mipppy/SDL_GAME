@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -12,6 +13,7 @@
 #include "sub/collison.hpp"
 #include "sub/gui.hpp"
 #include "sub/npc.hpp"
+#include "sub/console.hpp"
 unsigned int a = SDL_GetTicks();
 unsigned int b = SDL_GetTicks();
 double delta = 0;
@@ -58,6 +60,7 @@ int main(int argc, char *argv[])
 			rend.renderCSVStaticObjects(mapData, mappings);
 			rend.updateEntities();
 			rend.renderGUIElements();
+			rend.renderText();
 			rend.displayRenderedObjects();
 			delta = 0;
 		}
@@ -96,6 +99,8 @@ void EventHandler()
 			case SDLK_e:
 				checkIfShouldInteract();
 				break;
+			case SDLK_BACKQUOTE:
+				break;
 			}
 			break;
 		case SDL_KEYUP:
@@ -112,8 +117,6 @@ void EventHandler()
 				break;
 			case SDLK_d:
 				lonePlayerInstance->dPress = false;
-				break;
-			case SDLK_BACKQUOTE:
 				break;
 			}
 			break;

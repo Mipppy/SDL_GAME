@@ -2,7 +2,7 @@
 #define CONST_HPP
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
+#include <SDL2/SDL_ttf.h>
 // String Prefixes (Used to avoid potentially overriding other libraries constants)
 /*
     str_ : Generic string.

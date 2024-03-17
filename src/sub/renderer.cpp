@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <map>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <fstream>
 #include <vector>
 #include <sstream>
@@ -10,11 +11,13 @@
 #include "entity.hpp"
 #include "gameData/const.hpp"
 #include "collison.hpp"
+#include "npc.hpp"
 #include "gui.hpp"
 Renderer::Renderer(){};
 
 void Renderer::initRenderer()
 {
+
     SDL_Init(SDL_INIT_EVERYTHING);
     g_window = SDL_CreateWindow(str_WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1800, 720, SDL_WINDOW_SHOWN);
     g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -25,6 +28,7 @@ void Renderer::rendererCleanup()
     SDL_DestroyWindow(g_window);
     SDL_DestroyRenderer(g_renderer);
     SDL_Quit();
+    TTF_Quit();
 }
 
 void Renderer::clearRenderer()
@@ -154,6 +158,16 @@ void Renderer::renderGUIElements()
 {
     for (GUI_BASE *p_guiElement : allGUIelements)
     {
-        render(p_guiElement->g_path, p_guiElement->g_x, p_guiElement->g_y, p_guiElement->g_hitbox.w, p_guiElement->g_hitbox.h);
+        if (p_guiElement->shouldRender) {
+            render(p_guiElement->g_path, p_guiElement->g_x, p_guiElement->g_y, p_guiElement->g_hitbox.w, p_guiElement->g_hitbox.h);
+        }
     }
 }
+void Renderer::renderText() {
+    if (npcTextArea->shouldRender) {
+    npcTextArea->updateSurface(npcDialogueArea->dialogue);
+    SDL_Texture* message = SDL_CreateTextureFromSurface(g_renderer, npcTextArea->g_surface);
+    SDL_RenderCopy(g_renderer, message, NULL, &npcTextArea->g_rect);
+    SDL_DestroyTexture(message);
+    }
+};

@@ -6,7 +6,11 @@
 #include "npc.hpp"
 #include "entity.hpp"
 #include "player.hpp"
-
+#include "gui.hpp"
+#include "gameData/const.hpp"
+//Make this a global variable so we don't have to reload it every time, and just keep it loaded in the background!
+GUI_DIALOGUE_AREA* npcDialogueArea = new GUI_DIALOGUE_AREA(50, 60, 800, 300, "resources/npcbox.png");
+GUI_DIALOGUE_TEXT* npcTextArea = new GUI_DIALOGUE_TEXT(npcDialogueArea);
 NPC *currentInteractingNPC;
 std::vector<NPC *> allNPCs;
 
@@ -18,7 +22,10 @@ NPC::NPC(std::vector<const char *> p_dialogueVector, double p_interactDistance, 
     allEntities.push_back(this);
     allNPCs.push_back(this);
 }
-NPC::~NPC() {}
+NPC::~NPC() {
+    delete npcDialogueArea;
+    delete npcTextArea;
+}
 
 void NPC::tickUpdate()
 {
@@ -35,6 +42,9 @@ void NPC::finishInteracting()
     lonePlayerInstance->interacting = false;
     currentInteractingNPC = nullptr;
     dialogueIndex = 0;
+    npcDialogueArea->dialogue = "";
+    npcDialogueArea->shouldRender = false;
+    npcTextArea->shouldRender = false;
 }
 bool NPC::isCloseToPlayer()
 {
@@ -67,12 +77,15 @@ void checkIfShouldInteract()
         }
         else
         {
-            std::cout << currentInteractingNPC->dialogue.at(currentInteractingNPC->dialogueIndex) << std::endl;
+            currentInteractingNPC->displayTextBox(currentInteractingNPC->dialogue.at(currentInteractingNPC->dialogueIndex));
             currentInteractingNPC->dialogueIndex += 1;
         }
     }
     else
     {
+        if (currentInteractingNPC != nullptr) {
+        currentInteractingNPC->finishInteracting();
+        }
         for (auto &p_npc : allNPCs)
         {
             if (p_npc->g_autoInteract == true)
@@ -87,4 +100,10 @@ void checkIfShouldInteract()
             }
         }
     }
+}
+
+void NPC::displayTextBox(const char * dialogue) {
+    npcDialogueArea->shouldRender = true;
+    npcTextArea->shouldRender = true;
+    npcDialogueArea->dialogue = (char *)dialogue;
 }

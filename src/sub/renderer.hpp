@@ -27,5 +27,6 @@ public:
     void clearRenderer();
     void render(const char *p_path, int p_x, int p_y, int p_h, int p_w);
     void displayRenderedObjects();
+    void renderText();
 };
 #endif

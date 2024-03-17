@@ -3,6 +3,7 @@
 #include "player.hpp"
 #include "gameData/const.hpp"
 #include "entity.hpp"
+#include "npc.hpp"
 #include <iostream>
 #include <vector>
 
@@ -68,5 +69,12 @@ void Player::tickUpdate()
     if (!aPress && !dPress)
     {
         g_velX = g_velX * traction;
+    }
+    if (currentInteractingNPC != nullptr)
+    {
+        if (!currentInteractingNPC->isCloseToPlayer())
+        {
+            currentInteractingNPC->finishInteracting();
+        }
     }
 }

@@ -4,7 +4,8 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 #include "entity.hpp"
-
+#include "gui.hpp"
+#include "gameData/const.hpp"
 
 class NPC : public Entity {
     public:
@@ -20,10 +21,12 @@ class NPC : public Entity {
     void displayDialogue();
     void finishInteracting();
     bool shouldFinishInteracting();
+    void displayTextBox(const char *);
 };
 
 void checkIfShouldInteract();
-
+extern GUI_DIALOGUE_AREA* npcDialogueArea;
+extern GUI_DIALOGUE_TEXT* npcTextArea;
 extern std::vector<NPC*> allNPCs;
-
+extern NPC* currentInteractingNPC;
 #endif
