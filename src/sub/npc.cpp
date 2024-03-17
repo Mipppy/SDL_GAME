@@ -8,11 +8,18 @@
 #include "player.hpp"
 #include "gui.hpp"
 #include "gameData/const.hpp"
-//Make this a global variable so we don't have to reload it every time, and just keep it loaded in the background!
-GUI_DIALOGUE_AREA* npcDialogueArea = new GUI_DIALOGUE_AREA(50, 60, 800, 300, "resources/npcbox.png");
-GUI_DIALOGUE_TEXT* npcTextArea = new GUI_DIALOGUE_TEXT(npcDialogueArea);
+// Make this a global variable so we don't have to reload it every time, and just keep it loaded in the background!
+GUI_DIALOGUE_AREA *npcDialogueArea = new GUI_DIALOGUE_AREA(100, 60, 500, 250, "resources/npcbox.png");
+GUI_DIALOGUE_TEXT *npcTextArea = new GUI_DIALOGUE_TEXT(npcDialogueArea);
 NPC *currentInteractingNPC;
 std::vector<NPC *> allNPCs;
+
+bool areaPushedBack = false;
+void dialogueAreaSpecific()
+{
+    allGUIelements.push_back(npcDialogueArea);
+    areaPushedBack = true;
+}
 
 NPC::NPC(std::vector<const char *> p_dialogueVector, double p_interactDistance, bool p_autoInteract)
 {
@@ -21,10 +28,13 @@ NPC::NPC(std::vector<const char *> p_dialogueVector, double p_interactDistance, 
     g_interactDistance = p_interactDistance;
     allEntities.push_back(this);
     allNPCs.push_back(this);
+    if (!areaPushedBack)
+    {
+        dialogueAreaSpecific();
+    }
 }
-NPC::~NPC() {
-    delete npcDialogueArea;
-    delete npcTextArea;
+NPC::~NPC()
+{
 }
 
 void NPC::tickUpdate()
@@ -83,8 +93,9 @@ void checkIfShouldInteract()
     }
     else
     {
-        if (currentInteractingNPC != nullptr) {
-        currentInteractingNPC->finishInteracting();
+        if (currentInteractingNPC != nullptr)
+        {
+            currentInteractingNPC->finishInteracting();
         }
         for (auto &p_npc : allNPCs)
         {
@@ -94,7 +105,7 @@ void checkIfShouldInteract()
             }
             if (p_npc->isCloseToPlayer())
             {
-                //Google "recursion" !
+                // Google "recursion" !
                 checkIfShouldInteract();
                 break;
             }
@@ -102,7 +113,8 @@ void checkIfShouldInteract()
     }
 }
 
-void NPC::displayTextBox(const char * dialogue) {
+void NPC::displayTextBox(const char *dialogue)
+{
     npcDialogueArea->shouldRender = true;
     npcTextArea->shouldRender = true;
     npcDialogueArea->dialogue = (char *)dialogue;

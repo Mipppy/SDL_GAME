@@ -45,6 +45,7 @@ void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h)
 {
     SDL_Texture *texture = NULL;
     texture = IMG_LoadTexture(g_renderer, p_path);
+
     SDL_Rect src;
     src.x = 0;
     src.y = 0;
@@ -156,18 +157,22 @@ void Renderer::cleanUpStaticHitboxes()
 
 void Renderer::renderGUIElements()
 {
-    for (GUI_BASE *p_guiElement : allGUIelements)
+    for (auto p_guiElement : allGUIelements)
     {
-        if (p_guiElement->shouldRender) {
+        // std::cout << p_guiElement->g_path << std::endl;
+        if (p_guiElement->shouldRender)
+        {
             render(p_guiElement->g_path, p_guiElement->g_x, p_guiElement->g_y, p_guiElement->g_hitbox.w, p_guiElement->g_hitbox.h);
         }
     }
 }
-void Renderer::renderText() {
-    if (npcTextArea->shouldRender) {
-    npcTextArea->updateSurface(npcDialogueArea->dialogue);
-    SDL_Texture* message = SDL_CreateTextureFromSurface(g_renderer, npcTextArea->g_surface);
-    SDL_RenderCopy(g_renderer, message, NULL, &npcTextArea->g_rect);
-    SDL_DestroyTexture(message);
+void Renderer::renderText()
+{
+    if (npcTextArea->shouldRender)
+    {
+        npcTextArea->updateSurface(npcDialogueArea->dialogue);
+        SDL_Texture *message = SDL_CreateTextureFromSurface(g_renderer, npcTextArea->g_surface);
+        SDL_RenderCopy(g_renderer, message, NULL, &npcTextArea->g_rect);
+        SDL_DestroyTexture(message);
     }
 };

@@ -7,9 +7,10 @@
 #include "gui.hpp"
 #include "gameData/const.hpp"
 
-class NPC : public Entity {
-    public:
-    std::vector<const char*> dialogue;
+class NPC : public Entity
+{
+public:
+    std::vector<const char *> dialogue;
     bool g_interacting = false;
     double g_interactDistance = 0;
     int dialogueIndex = 0;
@@ -25,8 +26,9 @@ class NPC : public Entity {
 };
 
 void checkIfShouldInteract();
-extern GUI_DIALOGUE_AREA* npcDialogueArea;
-extern GUI_DIALOGUE_TEXT* npcTextArea;
-extern std::vector<NPC*> allNPCs;
-extern NPC* currentInteractingNPC;
+void dialogueAreaSpecific();
+extern GUI_DIALOGUE_AREA *npcDialogueArea;
+extern GUI_DIALOGUE_TEXT *npcTextArea;
+extern std::vector<NPC *> allNPCs;
+extern NPC *currentInteractingNPC;
 #endif

@@ -8,7 +8,7 @@
 #include "npc.hpp"
 #include "gameData/const.hpp"
 
-std::vector<Entity*> allEntities;
+std::vector<Entity *> allEntities;
 Entity::Entity() {}
 
 void Entity::initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_renderer)
@@ -37,16 +37,20 @@ void Entity::update()
     g_hitbox = dst;
     SDL_RenderCopy(p_renderer, g_texture, &src, &dst);
 
-    if (g_velY < 0) {
+    if (g_velY < 0)
+    {
         currentYDirection = 0;
     }
-    else {
+    else
+    {
         currentYDirection = 1;
     }
-    if (g_velX < 0){
+    if (g_velX < 0)
+    {
         currentXDirection = 0;
     }
-    else {
+    else
+    {
         currentXDirection = 1;
     }
 }
@@ -55,11 +59,14 @@ void Entity::setTexture(char *p_path)
     g_texture = IMG_LoadTexture(p_renderer, p_path);
 }
 
-Entity* createEntity(const char* p_type) {
-    if (strcmp(p_type, "p") == 0) {
+Entity *createEntity(const char *p_type)
+{
+    if (strcmp(p_type, "p") == 0)
+    {
         return new Player;
     }
-    else if (strcmp(p_type, "npc") == 0) {
+    else if (strcmp(p_type, "npc") == 0)
+    {
         std::vector<const char *> dialogue;
         dialogue.push_back("test dialogue #1 !");
         dialogue.push_back("test dialogue #2 !");
@@ -72,5 +79,6 @@ Entity* createEntity(const char* p_type) {
     return nullptr;
 }
 
-void Entity::tickUpdate() {
+void Entity::tickUpdate()
+{
 }

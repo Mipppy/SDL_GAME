@@ -24,6 +24,6 @@ public:
 
 Entity *createEntity(const char *p_type);
 
-extern std::vector<Entity*> allEntities;
+extern std::vector<Entity *> allEntities;
 
 #endif
