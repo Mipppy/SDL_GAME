@@ -71,9 +71,9 @@ Entity *createEntity(const char *p_type)
         dialogue.push_back("test dialogue #1 !");
         dialogue.push_back("test dialogue #2 !");
         dialogue.push_back("test dialogue #3 !");
-        dialogue.push_back("test dialogue #4 !");
-        dialogue.push_back("test dialogue #5 !");
-        dialogue.push_back("test dialogue #6 !");
+        dialogue.push_back("test dialogue #4 ! wow the word wrapping algorithm actually works, that took longer than expected!");
+        dialogue.push_back("test dialogue #5 ! lots of random words because 4 rows seems to be just a little, tiny, miniscule bit broken at the moment ");
+        dialogue.push_back("test dialogue #6 ! and a bunch more of useless trash! ooh!  what's that, more trash! wow! even more useless text for testing!  I hate this!  and it goes on and on and on, forever, this has no bonds or limits");
         return new NPC(dialogue, 100, false);
     }
     return nullptr;

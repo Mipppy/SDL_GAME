@@ -46,6 +46,7 @@ class GUI_DIALOGUE_TEXT : public GUI_BASE
 public:
     SDL_Surface *g_surface;
     SDL_Rect g_rect;
+    SDL_Rect g_backupRect;
     GUI_DIALOGUE_TEXT(GUI_DIALOGUE_AREA *);
     ~GUI_DIALOGUE_TEXT();
     void updateSurface(char *);

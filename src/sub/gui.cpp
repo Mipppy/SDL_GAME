@@ -5,6 +5,7 @@
 #include "gameData/const.hpp"
 #include <vector>
 #include <iostream>
+#include <cmath>
 #include <algorithm>
 
 std::vector<GUI_BUTTON *> allButtons;
@@ -78,11 +79,12 @@ GUI_DIALOGUE_TEXT::GUI_DIALOGUE_TEXT(GUI_DIALOGUE_AREA *p_baseArea)
     SDL_Color White = {0, 0, 0};
     shouldRender = false;
     TTF_Font *Sans = TTF_OpenFont("resources/sans.ttf", 24);
-    g_surface = TTF_RenderText_Solid(Sans, p_baseArea->dialogue, White);
     g_rect.x = p_baseArea->g_x + 10;
     g_rect.y = p_baseArea->g_y + 10;
     g_rect.w = p_baseArea->g_hitbox.w * 0.8;
-    g_rect.h = p_baseArea->g_hitbox.h * 0.2;
+    g_rect.h = p_baseArea->g_hitbox.h * 0.8;
+    g_backupRect = g_rect;
+    g_surface = TTF_RenderText_Blended_Wrapped(Sans, p_baseArea->dialogue, White,g_rect.w);
     TTF_CloseFont(Sans);
 }
 GUI_DIALOGUE_TEXT::~GUI_DIALOGUE_TEXT()
@@ -96,6 +98,9 @@ void GUI_DIALOGUE_TEXT::updateSurface(char *p_dialogue)
     TTF_Font *Sans = TTF_OpenFont("resources/sans.ttf", 24);
     SDL_FreeSurface(g_surface);
     TTF_SizeText(Sans, p_dialogue, &g_rect.w, &g_rect.h);
-    g_surface = TTF_RenderText_Solid(Sans, p_dialogue, White);
+    int timesToScale = round(g_rect.w/(g_backupRect.w)) + 1;
+    g_rect.h *= timesToScale;
+    g_rect.w = (g_rect.w/timesToScale) * 1.15;
+    g_surface = TTF_RenderText_Blended_Wrapped(Sans, p_dialogue, White, g_backupRect.w);
     TTF_CloseFont(Sans);
 }
