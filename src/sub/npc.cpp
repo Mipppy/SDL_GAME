@@ -58,8 +58,8 @@ void NPC::finishInteracting()
 }
 bool NPC::isCloseToPlayer()
 {
-    double x = lonePlayerInstance->g_x - g_x;
-    double y = lonePlayerInstance->g_y - g_y;
+    double x = lonePlayerInstance->g_hitbox.x - g_hitbox.x;
+    double y = lonePlayerInstance->g_hitbox.y - g_hitbox.y;
     double distance = std::sqrt(x * x + y * y);
     if (distance <= g_interactDistance)
     {

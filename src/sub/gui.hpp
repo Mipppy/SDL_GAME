@@ -2,6 +2,7 @@
 #define GUI_HPP
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
 
@@ -47,12 +48,12 @@ public:
     SDL_Surface *g_surface;
     SDL_Rect g_rect;
     SDL_Rect g_backupRect;
+    TTF_Font *Sans = nullptr;
     GUI_DIALOGUE_TEXT(GUI_DIALOGUE_AREA *);
     ~GUI_DIALOGUE_TEXT();
     void updateSurface(char *);
 };
 
-extern GUI_DIALOGUE_AREA *npcDialogue;
 extern std::vector<GUI_BUTTON *> allButtons;
 extern std::vector<GUI_BASE *> allGUIelements;
 #endif

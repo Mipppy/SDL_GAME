@@ -14,6 +14,8 @@
 #include "sub/gui.hpp"
 #include "sub/npc.hpp"
 #include "sub/console.hpp"
+#include "sub/globals.hpp"
+#include "sub/utils.hpp"
 unsigned int a = SDL_GetTicks();
 unsigned int b = SDL_GetTicks();
 double delta = 0;
@@ -41,7 +43,6 @@ int main(int argc, char *argv[])
 	{
 		a = SDL_GetTicks();
 		delta += a - b;
-
 		if (delta > 1000 / 500.0)
 		{
 			/*
@@ -59,6 +60,7 @@ int main(int argc, char *argv[])
 			rend.updateEntities();
 			rend.renderGUIElements();
 			rend.renderText();
+			std::cout << lonePlayerInstance->g_x << std::endl;
 			rend.displayRenderedObjects();
 			delta = 0;
 		}

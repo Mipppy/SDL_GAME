@@ -76,31 +76,33 @@ GUI_DIALOGUE_AREA::GUI_DIALOGUE_AREA(int p_x, int p_y, int p_w, int p_h, const c
 GUI_DIALOGUE_TEXT::GUI_DIALOGUE_TEXT(GUI_DIALOGUE_AREA *p_baseArea)
 {
     TTF_Init();
-    SDL_Color White = {0, 0, 0};
     shouldRender = false;
-    TTF_Font *Sans = TTF_OpenFont("resources/sans.ttf", 24);
+    if (Sans == nullptr) {
+        Sans = TTF_OpenFont("resources/sans.ttf", 24);
+    }
     g_rect.x = p_baseArea->g_x + 10;
     g_rect.y = p_baseArea->g_y + 10;
     g_rect.w = p_baseArea->g_hitbox.w * 0.8;
     g_rect.h = p_baseArea->g_hitbox.h * 0.8;
     g_backupRect = g_rect;
-    g_surface = TTF_RenderText_Blended_Wrapped(Sans, p_baseArea->dialogue, White,g_rect.w);
-    TTF_CloseFont(Sans);
+    g_surface = TTF_RenderText_Blended_Wrapped(Sans, p_baseArea->dialogue, color_White,g_rect.w);
 }
 GUI_DIALOGUE_TEXT::~GUI_DIALOGUE_TEXT()
 {
     SDL_FreeSurface(g_surface);
+    TTF_CloseFont(Sans);
 }
 void GUI_DIALOGUE_TEXT::updateSurface(char *p_dialogue)
 {
-    SDL_Color White = {0, 0, 0};
     shouldRender = true;
-    TTF_Font *Sans = TTF_OpenFont("resources/sans.ttf", 24);
+    if (Sans == nullptr) {
+        Sans = TTF_OpenFont("resources/sans.ttf", 24);
+    }
     SDL_FreeSurface(g_surface);
+    //Don't ask me how... don't ask me why... just be content with knowing it works
     TTF_SizeText(Sans, p_dialogue, &g_rect.w, &g_rect.h);
     int timesToScale = round(g_rect.w/(g_backupRect.w)) + 1;
     g_rect.h *= timesToScale;
-    g_rect.w = (g_rect.w/timesToScale) * 1.15;
-    g_surface = TTF_RenderText_Blended_Wrapped(Sans, p_dialogue, White, g_backupRect.w);
-    TTF_CloseFont(Sans);
+    g_rect.w = (g_rect.w/timesToScale) * (1+(timesToScale*0.050));
+    g_surface = TTF_RenderText_Blended_Wrapped(Sans, p_dialogue, color_White, g_backupRect.w);
 }

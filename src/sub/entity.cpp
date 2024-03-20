@@ -5,6 +5,7 @@
 #include <iostream>
 #include "entity.hpp"
 #include "player.hpp"
+#include "globals.hpp"
 #include "npc.hpp"
 #include "gameData/const.hpp"
 
@@ -28,15 +29,21 @@ void Entity::update()
     src.x = 0;
     src.y = 0;
     SDL_QueryTexture(g_texture, NULL, NULL, &src.w, &src.h);
-
     SDL_Rect dst;
-    dst.x = g_x;
-    dst.y = g_y;
+    if (typeid(*this).hash_code() == typeid(Player).hash_code())
+    {
+        dst.x = globals::GLOBAL_userScreenWidth / 2 - 32;
+        dst.y = globals::GLOBAL_userScreenHeight / 2 - 32;
+    }
+    else
+    {
+        dst.x = g_x - lonePlayerInstance->g_x;
+        dst.y = g_y - lonePlayerInstance->g_y;
+    }
     dst.w = int_DEFAULT_TEXTURE_SIZE;
     dst.h = int_DEFAULT_TEXTURE_SIZE;
     g_hitbox = dst;
     SDL_RenderCopy(p_renderer, g_texture, &src, &dst);
-
     if (g_velY < 0)
     {
         currentYDirection = 0;

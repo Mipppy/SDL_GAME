@@ -6,20 +6,23 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
-#include <variant>
 #include "renderer.hpp"
 #include "entity.hpp"
 #include "gameData/const.hpp"
 #include "collison.hpp"
+#include "player.hpp"
 #include "npc.hpp"
 #include "gui.hpp"
+#include "globals.hpp"
+#include "utils.hpp"
 Renderer::Renderer(){};
 
 void Renderer::initRenderer()
 {
 
     SDL_Init(SDL_INIT_EVERYTHING);
-    g_window = SDL_CreateWindow(str_WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1800, 720, SDL_WINDOW_SHOWN);
+	utils::screenDemensions(globals::GLOBAL_userScreenWidth, globals::GLOBAL_userScreenHeight);
+    g_window = SDL_CreateWindow(str_WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, globals::GLOBAL_userScreenWidth, globals::GLOBAL_userScreenHeight, SDL_WINDOW_SHOWN);
     g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
 
@@ -41,7 +44,7 @@ void Renderer::displayRenderedObjects()
     SDL_RenderPresent(g_renderer);
 }
 
-void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h)
+void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h, bool p_shouldOffset)
 {
     SDL_Texture *texture = NULL;
     texture = IMG_LoadTexture(g_renderer, p_path);
@@ -52,8 +55,14 @@ void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h)
     SDL_QueryTexture(texture, NULL, NULL, &src.w, &src.h);
 
     SDL_Rect dst;
+    if (p_shouldOffset) {
+    dst.x = p_x - lonePlayerInstance->g_x;
+    dst.y = p_y - lonePlayerInstance->g_y;
+    }
+    else {
     dst.x = p_x;
-    dst.y = p_y;
+    dst.y = p_y; 
+    }
     dst.w = p_w;
     dst.h = p_h;
     SDL_RenderCopy(g_renderer, texture, &src, &dst);
@@ -104,9 +113,9 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
             {
                 if (cell == mappingData.first)
                 {
-                    SDL_Rect *p_hitbox = new SDL_Rect{(cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE};
+                    SDL_Rect *p_hitbox = new SDL_Rect{((cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET) - lonePlayerInstance->g_x, ((rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET) - lonePlayerInstance->g_y, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE};
                     g_staticHitboxes.push_back(p_hitbox);
-                    render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE);
+                    render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE, true);
                 }
             }
         }
@@ -159,10 +168,9 @@ void Renderer::renderGUIElements()
 {
     for (auto p_guiElement : allGUIelements)
     {
-        // std::cout << p_guiElement->g_path << std::endl;
         if (p_guiElement->shouldRender)
         {
-            render(p_guiElement->g_path, p_guiElement->g_x, p_guiElement->g_y, p_guiElement->g_hitbox.w, p_guiElement->g_hitbox.h);
+            render(p_guiElement->g_path, p_guiElement->g_x, p_guiElement->g_y, p_guiElement->g_hitbox.w, p_guiElement->g_hitbox.h, false);
         }
     }
 }

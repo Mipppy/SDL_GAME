@@ -25,7 +25,7 @@ public:
     void rendererCleanup();
     void cleanUpStaticHitboxes();
     void clearRenderer();
-    void render(const char *p_path, int p_x, int p_y, int p_h, int p_w);
+    void render(const char *p_path, int p_x, int p_y, int p_h, int p_w, bool p_shouldOffset);
     void displayRenderedObjects();
     void renderText();
 };
