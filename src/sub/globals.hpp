@@ -7,8 +7,6 @@
 // all global variables will reside here, such as vectors of all entities an etc, to avoid having to import that entire header just to use one variable
 namespace globals
 {
-    extern int GLOBAL_currentRenderingOffsetX;
-    extern int GLOBAL_currentRenderingOffsetY;
     extern int GLOBAL_userScreenWidth;
     extern int GLOBAL_userScreenHeight;
 };

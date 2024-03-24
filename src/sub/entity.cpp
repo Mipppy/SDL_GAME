@@ -8,6 +8,8 @@
 #include "globals.hpp"
 #include "npc.hpp"
 #include "gameData/const.hpp"
+#include "utils.hpp"
+#include <string>
 
 std::vector<Entity *> allEntities;
 Entity::Entity() {}
@@ -66,7 +68,7 @@ void Entity::setTexture(char *p_path)
     g_texture = IMG_LoadTexture(p_renderer, p_path);
 }
 
-Entity *createEntity(const char *p_type)
+Entity *createEntity(const char *p_type, std::vector<std::string> p_params)
 {
     if (strcmp(p_type, "p") == 0)
     {
@@ -74,6 +76,7 @@ Entity *createEntity(const char *p_type)
     }
     else if (strcmp(p_type, "npc") == 0)
     {
+
         std::vector<const char *> dialogue;
         dialogue.push_back("test dialogue #1 !");
         dialogue.push_back("test dialogue #2 !");

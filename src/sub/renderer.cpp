@@ -21,7 +21,7 @@ void Renderer::initRenderer()
 {
 
     SDL_Init(SDL_INIT_EVERYTHING);
-	utils::screenDemensions(globals::GLOBAL_userScreenWidth, globals::GLOBAL_userScreenHeight);
+    utils::screenDemensions(globals::GLOBAL_userScreenWidth, globals::GLOBAL_userScreenHeight);
     g_window = SDL_CreateWindow(str_WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, globals::GLOBAL_userScreenWidth, globals::GLOBAL_userScreenHeight, SDL_WINDOW_SHOWN);
     g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
@@ -55,13 +55,15 @@ void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h, bo
     SDL_QueryTexture(texture, NULL, NULL, &src.w, &src.h);
 
     SDL_Rect dst;
-    if (p_shouldOffset) {
-    dst.x = p_x - lonePlayerInstance->g_x;
-    dst.y = p_y - lonePlayerInstance->g_y;
+    if (p_shouldOffset)
+    {
+        dst.x = p_x - lonePlayerInstance->g_x;
+        dst.y = p_y - lonePlayerInstance->g_y;
     }
-    else {
-    dst.x = p_x;
-    dst.y = p_y; 
+    else
+    {
+        dst.x = p_x;
+        dst.y = p_y;
     }
     dst.w = p_w;
     dst.h = p_h;
@@ -131,18 +133,27 @@ void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData
     {
         rowcounter++;
         cellcounter = 0;
+        std::vector<std::string> rowCells;
         for (const auto &cell : row)
         {
+            rowCells.push_back(cell);
             cellcounter++;
-            for (const auto &mappingData : p_mappings)
+        }
+
+        for (const auto &mappingData : p_mappings)
+        {
+            if (strcmp(rowCells.front().c_str(), mappingData.second.second) == 0)
             {
-                if (cell == mappingData.first || strcmp(cell.c_str(), mappingData.second.second) == 0)
-                {
-                    Entity *worthlessEntity = createEntity(mappingData.second.second);
-                    worthlessEntity->initEntity(mappingData.second.first, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, g_renderer);
+                Entity *worthlessEntity = createEntity(mappingData.second.second, rowCells);
+                try {
+                    worthlessEntity->initEntity(mappingData.second.first,  std::stoi(rowCells[1]), std::stoi(rowCells[2]), g_renderer);
+                }
+                catch (std::length_error) {
+                    std::cout << "failed to init entity of type " << typeid(*worthlessEntity).name() << std::endl;
                 }
             }
         }
+        rowCells.clear();
     }
 }
 void Renderer::updateEntities()

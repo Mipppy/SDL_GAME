@@ -60,7 +60,6 @@ int main(int argc, char *argv[])
 			rend.updateEntities();
 			rend.renderGUIElements();
 			rend.renderText();
-			std::cout << lonePlayerInstance->g_x << std::endl;
 			rend.displayRenderedObjects();
 			delta = 0;
 		}

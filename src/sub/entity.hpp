@@ -5,6 +5,7 @@
 #include <vector>
 #include "entity.hpp"
 #include <memory>
+#include <string>
 class Entity
 {
 public:
@@ -22,7 +23,7 @@ public:
     Entity();
 };
 
-Entity *createEntity(const char *p_type);
+Entity *createEntity(const char *p_type, std::vector<std::string> p_params);
 
 extern std::vector<Entity *> allEntities;
 
