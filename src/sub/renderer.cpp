@@ -131,6 +131,7 @@ void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData
     // Loop through 2d vector array
     for (const auto &row : p_mapData)
     {
+
         rowcounter++;
         cellcounter = 0;
         std::vector<std::string> rowCells;
@@ -144,18 +145,18 @@ void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData
         {
             if (strcmp(rowCells.front().c_str(), mappingData.second.second) == 0)
             {
+                if (rowCells.size() < 3)
+                {
+                    std::cout << "Failed to init entity for type " << mappingData.second.second << ". Error: less than 3 arguments provided" << std::endl;
+                    return;
+                }
                 Entity *worthlessEntity = createEntity(mappingData.second.second, rowCells);
-                try {
-                    worthlessEntity->initEntity(mappingData.second.first,  std::stoi(rowCells[1]), std::stoi(rowCells[2]), g_renderer);
-                }
-                catch (std::length_error) {
-                    std::cout << "failed to init entity of type " << typeid(*worthlessEntity).name() << std::endl;
-                }
+                worthlessEntity->initEntity(mappingData.second.first, std::stoi(rowCells[1]), std::stoi(rowCells[2]), g_renderer);
             }
         }
-        rowCells.clear();
     }
 }
+
 void Renderer::updateEntities()
 {
     for (auto p_entity : allEntities)
