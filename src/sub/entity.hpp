@@ -14,11 +14,13 @@ public:
     SDL_Rect g_hitbox = {0, 0, 0, 0};
     int currentXDirection = 0;
     int currentYDirection = 0;
+    double lastRotationAngle = 0.0;
     SDL_Renderer *p_renderer;
     void initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_renderer);
     void setTexture(char *p_path);
     void update();
     void destroyEntity();
+    double calculateRotationAngle();
     virtual void tickUpdate();
     Entity();
 };

@@ -45,12 +45,14 @@ void Entity::update()
     dst.w = int_DEFAULT_TEXTURE_SIZE;
     dst.h = int_DEFAULT_TEXTURE_SIZE;
     g_hitbox = dst;
-    SDL_RenderCopy(p_renderer, g_texture, &src, &dst);
+    double angle = 0.0; // Default angle
+
+    SDL_RenderCopyEx(p_renderer, g_texture, &src, &dst, angle, NULL, SDL_FLIP_NONE);
     if (g_velY < 0)
     {
         currentYDirection = 0;
     }
-    else
+    else if (g_velY > 0)
     {
         currentYDirection = 1;
     }
@@ -58,7 +60,7 @@ void Entity::update()
     {
         currentXDirection = 0;
     }
-    else
+    else if (g_velX > 1)
     {
         currentXDirection = 1;
     }
@@ -87,6 +89,18 @@ Entity *createEntity(const char *p_type, std::vector<std::string> p_params)
         return new NPC(dialogue, 100, false);
     }
     return nullptr;
+}
+
+double Entity::calculateRotationAngle() {
+    double angle = 0.0;
+    if (currentXDirection == 1 && currentYDirection == 0) {
+        angle = 90.0;
+    } else if (currentXDirection == -1 && currentYDirection == 0) {
+        angle = -90.0;
+    } else if (currentXDirection == 0 && currentYDirection == 1) {
+        angle = -180.0;
+    }
+    return angle;
 }
 
 void Entity::tickUpdate()
