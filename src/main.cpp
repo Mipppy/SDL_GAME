@@ -29,12 +29,13 @@ int main(int argc, char *argv[])
 	std::map<const char *, const char *> mappings;
 	std::map<const char *, std::pair<const char *, const char *>> mappings2;
 	mappings.insert(std::make_pair("1", "resources/rock.png"));
-	mappings2.emplace("1", std::make_pair("resources/player.png", "p"));
+	mappings2.emplace("1", std::make_pair("resources/player/player_", "p"));
 	mappings2.emplace("2", std::make_pair("resources/rock.png", "npc"));
 	char path[] = "resources/test.csv";
 	char path2[] = "resources/teste.csv";
 	allGUIelements.clear();
 	allButtons.clear();
+	rend.staticObjectsNotToRender.clear();
 	std::vector<std::vector<std::string>> mapData = rend.loadFromCSV(path);
 	std::vector<std::vector<std::string>> entityMapData = rend.loadFromCSV(path2);
 	rend.renderCSVEntities(entityMapData, mappings2);
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
 			rend.cleanUpStaticHitboxes();
 			EventHandler();
 			rend.clearRenderer();
-			rend.renderCSVStaticObjects(mapData, mappings);
+			rend.renderCSVStaticObjects(mapData, mappings, a);
 			rend.updateEntities();
 			rend.renderGUIElements();
 			rend.renderText();

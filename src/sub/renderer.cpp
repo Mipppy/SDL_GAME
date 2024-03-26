@@ -6,6 +6,9 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <cmath>
+#include <algorithm>
+#include <utility>
 #include "renderer.hpp"
 #include "entity.hpp"
 #include "gameData/const.hpp"
@@ -98,7 +101,7 @@ std::vector<std::vector<std::string>> Renderer::loadFromCSV(char p_path[])
     return csvData;
 }
 
-void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char *, const char *> p_mappings)
+void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char *, const char *> p_mappings, double ticks)
 {
     int cellcounter = 0;
     int rowcounter = 0;
@@ -116,8 +119,31 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
                 if (cell == mappingData.first)
                 {
                     SDL_Rect *p_hitbox = new SDL_Rect{((cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET) - lonePlayerInstance->g_x, ((rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET) - lonePlayerInstance->g_y, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE};
-                    g_staticHitboxes.push_back(p_hitbox);
-                    render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE, true);
+                    if ((int)ticks % 30 == 0)
+                    {
+                        double distanceFromPlayer = std::sqrt(((lonePlayerInstance->g_hitbox.x - p_hitbox->x) * (lonePlayerInstance->g_hitbox.x - p_hitbox->x)) + ((lonePlayerInstance->g_hitbox.y - p_hitbox->y) * (lonePlayerInstance->g_hitbox.y - p_hitbox->y)));
+                        if (distanceFromPlayer < globals::GLOBAL_userScreenWidth/2)
+                        {
+                            g_staticHitboxes.push_back(p_hitbox);
+                            staticObjectsNotToRender.erase(std::remove(staticObjectsNotToRender.begin(), staticObjectsNotToRender.end(), std::make_pair(cellcounter, rowcounter)), staticObjectsNotToRender.end());
+                            render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE, true);
+                        }
+                        else {
+                            staticObjectsNotToRender.push_back(std::make_pair(cellcounter, rowcounter));
+                            delete p_hitbox;
+                        }
+                    }
+                    else
+                    {
+                        if (std::find(staticObjectsNotToRender.begin(), staticObjectsNotToRender.end(), std::make_pair(cellcounter, rowcounter)) == staticObjectsNotToRender.end())
+                        {
+                            render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE, true);
+                            g_staticHitboxes.push_back(p_hitbox);
+                        }
+                        else {
+                            delete p_hitbox;
+                        }
+                    }
                 }
             }
         }

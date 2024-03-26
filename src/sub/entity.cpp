@@ -19,6 +19,7 @@ void Entity::initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_re
     g_x = p_x;
     g_y = p_y;
     p_renderer = o_renderer;
+    g_path = (char*)p_path;
     g_texture = IMG_LoadTexture(o_renderer, p_path);
     // MUST BE IN **EVERY** CONSTRUCTOR!
     // allEntities.push_back(std::make_unique<Entity>(*this));
@@ -45,8 +46,7 @@ void Entity::update()
     dst.w = int_DEFAULT_TEXTURE_SIZE;
     dst.h = int_DEFAULT_TEXTURE_SIZE;
     g_hitbox = dst;
-    double angle = 0.0; // Default angle
-
+    double angle = 0.0;
     SDL_RenderCopyEx(p_renderer, g_texture, &src, &dst, angle, NULL, SDL_FLIP_NONE);
     if (g_velY < 0)
     {
@@ -56,17 +56,24 @@ void Entity::update()
     {
         currentYDirection = 1;
     }
+    else {
+        currentYDirection = -1;
+    }
     if (g_velX < 0)
     {
         currentXDirection = 0;
     }
-    else if (g_velX > 1)
+    else if (g_velX > 0)
     {
         currentXDirection = 1;
+    }
+    else {
+        currentXDirection = -1;
     }
 }
 void Entity::setTexture(char *p_path)
 {
+    SDL_DestroyTexture(g_texture);
     g_texture = IMG_LoadTexture(p_renderer, p_path);
 }
 
@@ -90,19 +97,6 @@ Entity *createEntity(const char *p_type, std::vector<std::string> p_params)
     }
     return nullptr;
 }
-
-double Entity::calculateRotationAngle() {
-    double angle = 0.0;
-    if (currentXDirection == 1 && currentYDirection == 0) {
-        angle = 90.0;
-    } else if (currentXDirection == -1 && currentYDirection == 0) {
-        angle = -90.0;
-    } else if (currentXDirection == 0 && currentYDirection == 1) {
-        angle = -180.0;
-    }
-    return angle;
-}
-
 void Entity::tickUpdate()
 {
 }

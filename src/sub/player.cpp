@@ -4,6 +4,7 @@
 #include "gameData/const.hpp"
 #include "entity.hpp"
 #include "npc.hpp"
+#include <cstring>
 #include <iostream>
 #include <vector>
 
@@ -15,6 +16,32 @@ Player::Player()
     allEntities.push_back(this);
 }
 Player::~Player() {}
+
+void Player::updateDirection()
+{
+    if (currentXDirection == 1 && currentYDirection == -1)
+    {
+        fileDirectionExtension = "right.png";
+    }
+    else if (currentXDirection == -1 && currentYDirection == 0)
+    {
+        fileDirectionExtension = "up.png";
+    }
+    else if (currentXDirection == 0 && currentYDirection == -1)
+    {
+        fileDirectionExtension = "left.png";
+    }
+    else if (currentXDirection == -1 && currentYDirection == 1)
+    {
+        fileDirectionExtension = "down.png";
+    }
+
+    char newPath[150];
+    strncpy(newPath, g_path, sizeof(newPath) - 1);
+    newPath[sizeof(newPath) - 1] = '\0';
+    strncat(newPath, fileDirectionExtension, sizeof(newPath) - strlen(newPath) - 1);
+    setTexture(newPath);
+}
 
 void Player::tickUpdate()
 {
@@ -77,4 +104,5 @@ void Player::tickUpdate()
             currentInteractingNPC->finishInteracting();
         }
     }
+    updateDirection();
 }

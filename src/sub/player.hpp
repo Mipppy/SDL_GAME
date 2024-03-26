@@ -11,11 +11,13 @@ public:
     float traction = 0.6;
     float speedCap = 3;
     bool interacting = false;
+    char* fileDirectionExtension = "down.png";
     bool wPress = false, dPress = false, aPress = false, sPress = false;
     Player();
     ~Player();
     void keyEventHandler();
     void tickUpdate() override;
+    void updateDirection();
 };
 extern Player *lonePlayerInstance;
 #endif
