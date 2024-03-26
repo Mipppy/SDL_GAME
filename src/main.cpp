@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	rend.renderCSVEntities(entityMapData, mappings2);
 	gui.createButton(1000, 500, 64, 64, "resources/button.png");
 
-	const double FIXED_TIMESTEP = 1000 / 660.0; 
+	const double FIXED_TIMESTEP = 1000 / 360.0; 
 	Uint32 prevTicks = SDL_GetTicks();		   
 	double accumulator = 0.0;				  
 
@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
 		Uint32 deltaTime = currentTicks - prevTicks; 
 		prevTicks = currentTicks;
 		accumulator += deltaTime;
-		while (accumulator >= FIXED_TIMESTEP)
-		{
+		// while (accumulator >= FIXED_TIMESTEP)
+		// {
 			rend.cleanUpStaticHitboxes();
 			EventHandler();
 			rend.clearRenderer();
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 			rend.renderGUIElements();
 			rend.renderText();
 			rend.displayRenderedObjects();
-		}
+		// }
 	}
 
 	return 0;

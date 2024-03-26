@@ -122,7 +122,6 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
                     SDL_Rect *p_hitbox = new SDL_Rect{((cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET) - lonePlayerInstance->g_x, ((rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET) - lonePlayerInstance->g_y, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE};
                     double xDistance = std::fabs((lonePlayerInstance->g_hitbox.x - p_hitbox->x));
                     double yDistance = std::fabs((lonePlayerInstance->g_hitbox.y - p_hitbox->y));
-                    std::cout << lonePlayerInstance->g_hitbox.x << " : " << lonePlayerInstance->g_hitbox.y << std::endl;
                     if (xDistance <= globals::GLOBAL_userScreenWidth/2 + 10 && yDistance <= globals::GLOBAL_userScreenHeight/2 + 10)
                     {
                         g_staticHitboxes.push_back(p_hitbox);
