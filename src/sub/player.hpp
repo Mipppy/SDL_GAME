@@ -7,7 +7,7 @@
 class Player : public Entity
 {
 public:
-    float speed = 5;
+    float speed = 150;
     float traction = 0.6;
     float speedCap = 3;
     bool interacting = false;

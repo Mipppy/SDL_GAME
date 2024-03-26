@@ -40,32 +40,31 @@ int main(int argc, char *argv[])
 	std::vector<std::vector<std::string>> entityMapData = rend.loadFromCSV(path2);
 	rend.renderCSVEntities(entityMapData, mappings2);
 	gui.createButton(1000, 500, 64, 64, "resources/button.png");
+
+	const double FIXED_TIMESTEP = 1000 / 660.0; 
+	Uint32 prevTicks = SDL_GetTicks();		   
+	double accumulator = 0.0;				  
+
 	while (running)
 	{
-		a = SDL_GetTicks();
-		delta += a - b;
-		if (delta > 1000 / 250.0)
+		Uint32 currentTicks = SDL_GetTicks();
+		Uint32 deltaTime = currentTicks - prevTicks; 
+		prevTicks = currentTicks;
+		accumulator += deltaTime;
+		while (accumulator >= FIXED_TIMESTEP)
 		{
-			/*
-				Render Order:
-				GUI
-				HUD
-				ENTITIES
-				COLLIDABLE OBJECTS
-				BACKGROUND OBJECTS
-			*/
 			rend.cleanUpStaticHitboxes();
 			EventHandler();
 			rend.clearRenderer();
-			rend.renderCSVStaticObjects(mapData, mappings, a);
+			rend.renderCSVStaticObjects(mapData, mappings, currentTicks);
 			rend.updateEntities();
+			accumulator -= FIXED_TIMESTEP; 
 			rend.renderGUIElements();
 			rend.renderText();
 			rend.displayRenderedObjects();
-			delta = 0;
 		}
-		b = SDL_GetTicks();
 	}
+
 	return 0;
 }
 

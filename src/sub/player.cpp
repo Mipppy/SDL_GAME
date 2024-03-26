@@ -19,6 +19,7 @@ Player::~Player() {}
 
 void Player::updateDirection()
 {
+    const char* oldDirection = fileDirectionExtension;
     if (currentXDirection == 1 && currentYDirection == -1)
     {
         fileDirectionExtension = "right.png";
@@ -35,11 +36,14 @@ void Player::updateDirection()
     {
         fileDirectionExtension = "down.png";
     }
-    char newPath[150];
-    strncpy(newPath, g_path, sizeof(newPath) - 1);
-    newPath[sizeof(newPath) - 1] = '\0';
-    strncat(newPath, fileDirectionExtension, sizeof(newPath) - strlen(newPath) - 1);
-    setTexture(newPath);
+    if (strcmp(fileDirectionExtension, oldDirection) != 0) {
+        spriteSheetInstance = 0;
+        char newPath[150];
+        strncpy(newPath, g_path, sizeof(newPath) - 1);
+        newPath[sizeof(newPath) - 1] = '\0';
+        strncat(newPath, fileDirectionExtension, sizeof(newPath) - strlen(newPath) - 1);
+        setTexture(newPath);
+    }
 }
 
 void Player::tickUpdate()
