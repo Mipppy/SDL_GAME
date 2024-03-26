@@ -20,10 +20,6 @@ inline const SDL_Color color_Black = {255,255,255};
 inline const SDL_Color color_darkGrey = {179,179,179};
 inline const SDL_Color color_lightGrey = {100,100,100};
 inline const SDL_Color color_Grey = {129,129,129};
-inline const char* ANSI_COLOR_RED = "\033[31m";
-inline const char* ANSI_COLOR_GREEN = "\033[32m";
-inline const char* ANSI_COLOR_BOLD = "\033[1m";
-inline const char* ANSI_COLOR_RESET = "\033[0m";
 
 
 

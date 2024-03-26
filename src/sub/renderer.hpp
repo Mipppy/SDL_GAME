@@ -4,7 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <map>
 #include <vector>
-#include <utility> 
+#include <utility>
 #include <string>
 #include "entity.hpp"
 #include "collison.hpp"
@@ -15,7 +15,7 @@ public:
     SDL_Window *g_window;
     SDL_Renderer *g_renderer;
     Collison collisons;
-    std::vector<std::pair<int,int>> staticObjectsNotToRender;
+    std::vector<std::pair<int, int>> staticObjectsNotToRender;
     void initRenderer();
     std::vector<std::vector<std::string>> loadFromCSV(char p_path[]);
     // renderCSVStaticObjects is a constant job, being run constantly, taking care of static rendering

@@ -35,7 +35,6 @@ void Player::updateDirection()
     {
         fileDirectionExtension = "down.png";
     }
-
     char newPath[150];
     strncpy(newPath, g_path, sizeof(newPath) - 1);
     newPath[sizeof(newPath) - 1] = '\0';

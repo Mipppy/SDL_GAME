@@ -19,19 +19,25 @@ void Entity::initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_re
     g_x = p_x;
     g_y = p_y;
     p_renderer = o_renderer;
-    g_path = (char*)p_path;
+    g_path = (char *)p_path;
     g_texture = IMG_LoadTexture(o_renderer, p_path);
     // MUST BE IN **EVERY** CONSTRUCTOR!
     // allEntities.push_back(std::make_unique<Entity>(*this));
 }
 void Entity::update()
 {
+    ticks++;
     g_x = (g_x + g_velX);
     g_y = (g_y + g_velY);
     SDL_Rect src;
-    src.x = 0;
     src.y = 0;
-    SDL_QueryTexture(g_texture, NULL, NULL, &src.w, &src.h);
+    int maxSpriteItr;
+    SDL_QueryTexture(g_texture, NULL, NULL, &maxSpriteItr, &src.h);
+    src.w = 64;
+    if (ticks % 30 == 0) {
+        spriteSheetInstance = (spriteSheetInstance + 1) % (maxSpriteItr / 64);
+    }
+    src.x = spriteSheetInstance*64;
     SDL_Rect dst;
     if (typeid(*this).hash_code() == typeid(Player).hash_code())
     {
@@ -56,7 +62,8 @@ void Entity::update()
     {
         currentYDirection = 1;
     }
-    else {
+    else
+    {
         currentYDirection = -1;
     }
     if (g_velX < 0)
@@ -67,7 +74,8 @@ void Entity::update()
     {
         currentXDirection = 1;
     }
-    else {
+    else
+    {
         currentXDirection = -1;
     }
 }

@@ -14,7 +14,9 @@ public:
     SDL_Rect g_hitbox = {0, 0, 0, 0};
     int currentXDirection = 0;
     int currentYDirection = 0;
-    char* g_path;
+    int spriteSheetInstance = 0;
+    unsigned int ticks = 0;
+    char *g_path;
     SDL_Renderer *p_renderer;
     void initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_renderer);
     void setTexture(char *p_path);

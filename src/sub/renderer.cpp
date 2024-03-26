@@ -122,13 +122,14 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
                     if ((int)ticks % 30 == 0)
                     {
                         double distanceFromPlayer = std::sqrt(((lonePlayerInstance->g_hitbox.x - p_hitbox->x) * (lonePlayerInstance->g_hitbox.x - p_hitbox->x)) + ((lonePlayerInstance->g_hitbox.y - p_hitbox->y) * (lonePlayerInstance->g_hitbox.y - p_hitbox->y)));
-                        if (distanceFromPlayer < globals::GLOBAL_userScreenWidth/2)
+                        if (distanceFromPlayer < globals::GLOBAL_userScreenWidth / 2)
                         {
                             g_staticHitboxes.push_back(p_hitbox);
                             staticObjectsNotToRender.erase(std::remove(staticObjectsNotToRender.begin(), staticObjectsNotToRender.end(), std::make_pair(cellcounter, rowcounter)), staticObjectsNotToRender.end());
                             render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE, true);
                         }
-                        else {
+                        else
+                        {
                             staticObjectsNotToRender.push_back(std::make_pair(cellcounter, rowcounter));
                             delete p_hitbox;
                         }
@@ -140,7 +141,8 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
                             render(mappingData.second, (cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, (rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE, true);
                             g_staticHitboxes.push_back(p_hitbox);
                         }
-                        else {
+                        else
+                        {
                             delete p_hitbox;
                         }
                     }
@@ -154,7 +156,6 @@ void Renderer::renderCSVEntities(std::vector<std::vector<std::string>> p_mapData
     int cellcounter = 0;
     int rowcounter = 0;
 
-    // Loop through 2d vector array
     for (const auto &row : p_mapData)
     {
 

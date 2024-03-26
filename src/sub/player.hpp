@@ -7,11 +7,11 @@
 class Player : public Entity
 {
 public:
-    float speed = 1;
+    float speed = 5;
     float traction = 0.6;
     float speedCap = 3;
     bool interacting = false;
-    char* fileDirectionExtension = "down.png";
+    char *fileDirectionExtension = "down.png";
     bool wPress = false, dPress = false, aPress = false, sPress = false;
     Player();
     ~Player();
