@@ -41,30 +41,33 @@ int main(int argc, char *argv[])
 	rend.renderCSVEntities(entityMapData, mappings2);
 	gui.createButton(1000, 500, 64, 64, "resources/button.png");
 
-	const double FIXED_TIMESTEP = 1000 / 360.0; 
-	Uint32 prevTicks = SDL_GetTicks();		   
-	double accumulator = 0.0;				  
+	const int SCREEN_TICKS_PER_FRAME = 1000 / 60;
+	Uint32 prevTicks = SDL_GetTicks();
 
 	while (running)
 	{
 		Uint32 currentTicks = SDL_GetTicks();
-		Uint32 deltaTime = currentTicks - prevTicks; 
-		prevTicks = currentTicks;
-		accumulator += deltaTime;
-		// while (accumulator >= FIXED_TIMESTEP)
-		// {
-			rend.cleanUpStaticHitboxes();
-			EventHandler();
-			rend.clearRenderer();
-			rend.renderCSVStaticObjects(mapData, mappings, currentTicks);
-			rend.updateEntities();
-			accumulator -= FIXED_TIMESTEP; 
-			rend.renderGUIElements();
-			rend.renderText();
-			rend.displayRenderedObjects();
-		// }
-	}
+		Uint32 elapsedTicks = currentTicks - prevTicks;
 
+		if (elapsedTicks < SCREEN_TICKS_PER_FRAME)
+		{		
+		rend.cleanUpStaticHitboxes();
+		EventHandler();
+		rend.clearRenderer();
+		rend.renderCSVStaticObjects(mapData, mappings, currentTicks);
+		rend.updateEntities();
+		rend.renderGUIElements();
+		rend.renderText();
+		rend.displayRenderedObjects();
+			SDL_Delay(SCREEN_TICKS_PER_FRAME - elapsedTicks);
+			currentTicks = SDL_GetTicks();			
+			elapsedTicks = currentTicks - prevTicks; 
+		}
+
+		prevTicks = currentTicks;
+
+
+	}
 	return 0;
 }
 
