@@ -9,6 +9,7 @@
 #include <cmath>
 #include <algorithm>
 #include <utility>
+#include "timer.hpp"
 #include "renderer.hpp"
 #include "entity.hpp"
 #include "gameData/const.hpp"
@@ -50,13 +51,24 @@ void Renderer::displayRenderedObjects()
 void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h, bool p_shouldOffset)
 {
     SDL_Texture *texture = NULL;
-    texture = IMG_LoadTexture(g_renderer, p_path);
+    auto foundTexture = std::find_if(lastTexturesLoaded.begin(), lastTexturesLoaded.end(), [&](const auto& pair) {
+        return std::strcmp(pair.second, p_path) == 0;
+    });
 
+    if (foundTexture != lastTexturesLoaded.end()) {
+        texture = foundTexture->first;
+    } else {
+        texture = IMG_LoadTexture(g_renderer, p_path);
+        lastTexturesLoaded.push_back(std::make_pair(texture, p_path));
+        if (lastTexturesLoaded.size() > maxTexturesCached) {
+            SDL_DestroyTexture(lastTexturesLoaded.begin()->first);
+            lastTexturesLoaded.erase(lastTexturesLoaded.begin());
+        }
+    }
     SDL_Rect src;
     src.x = 0;
     src.y = 0;
     SDL_QueryTexture(texture, NULL, NULL, &src.w, &src.h);
-
     SDL_Rect dst;
     if (p_shouldOffset)
     {
@@ -71,7 +83,6 @@ void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h, bo
     dst.w = p_w;
     dst.h = p_h;
     SDL_RenderCopy(g_renderer, texture, &src, &dst);
-    SDL_DestroyTexture(texture);
 }
 
 std::vector<std::vector<std::string>> Renderer::loadFromCSV(char p_path[])
@@ -104,7 +115,6 @@ std::vector<std::vector<std::string>> Renderer::loadFromCSV(char p_path[])
 void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char *, const char *> p_mappings, double ticks)
 {
     int rowcounter = 0;
-
     // Loop through 2d vector array
     for (const auto &row : p_mapData)
     {

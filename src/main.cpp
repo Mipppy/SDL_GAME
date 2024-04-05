@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	rend.renderCSVEntities(entityMapData, mappings2);
 	gui.createButton(1000, 500, 64, 64, "resources/button.png");
 
-	const int SCREEN_TICKS_PER_FRAME = 1000 / 360;
+	const int SCREEN_TICKS_PER_FRAME = 1000 / 160;
 	Uint32 prevTicks = SDL_GetTicks();
 
 	while (running)

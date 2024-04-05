@@ -16,11 +16,11 @@ public:
     SDL_Renderer *g_renderer;
     Collison collisons;
     std::vector<std::pair<int, int>> staticObjectsNotToRender;
+    std::vector<std::pair<SDL_Texture*, const char*>> lastTexturesLoaded;
+    long long unsigned int maxTexturesCached = 3;
     void initRenderer();
     std::vector<std::vector<std::string>> loadFromCSV(char p_path[]);
-    // renderCSVStaticObjects is a constant job, being run constantly, taking care of static rendering
     void renderCSVStaticObjects(std::vector<std::vector<std::string>> p_mapData, std::map<const char *, const char *> p_mappings, double ticks);
-    // renderCSVEntities is a one and done job, initalizing the Entity and that's it, because entities take care of rendering themselves.
     void renderCSVEntities(std::vector<std::vector<std::string>> p_mapData, std::map<const char *, std::pair<const char *, const char *>> p_mappings);
     void renderGUIElements();
     void updateEntities();
