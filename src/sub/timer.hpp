@@ -3,14 +3,15 @@
 
 #include <chrono>
 
-class Timer {
-    public:
+class Timer
+{
+public:
     bool shouldLog = false;
-    const char* strAppender;
+    const char *strAppender;
     std::chrono::high_resolution_clock::time_point startPos;
-    Timer(bool log, const char* appender = "Timer: ");
+    Timer(bool log, const char *appender = "Timer: ", bool autoStart = false);
     void start();
     void end();
 };
 
-#endif 
+#endif

@@ -51,16 +51,18 @@ void Renderer::displayRenderedObjects()
 void Renderer::render(const char *p_path, int p_x, int p_y, int p_w, int p_h, bool p_shouldOffset)
 {
     SDL_Texture *texture = NULL;
-    auto foundTexture = std::find_if(lastTexturesLoaded.begin(), lastTexturesLoaded.end(), [&](const auto& pair) {
-        return std::strcmp(pair.second, p_path) == 0;
-    });
+    auto foundTexture = std::find_if(lastTexturesLoaded.begin(), lastTexturesLoaded.end(), [&](const auto &pair) { return std::strcmp(pair.second, p_path) == 0; });
 
-    if (foundTexture != lastTexturesLoaded.end()) {
+    if (foundTexture != lastTexturesLoaded.end())
+    {
         texture = foundTexture->first;
-    } else {
+    }
+    else
+    {
         texture = IMG_LoadTexture(g_renderer, p_path);
         lastTexturesLoaded.push_back(std::make_pair(texture, p_path));
-        if (lastTexturesLoaded.size() > maxTexturesCached) {
+        if (lastTexturesLoaded.size() > maxTexturesCached)
+        {
             SDL_DestroyTexture(lastTexturesLoaded.begin()->first);
             lastTexturesLoaded.erase(lastTexturesLoaded.begin());
         }
@@ -124,7 +126,8 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
         {
             cellcounter++;
             // Find the mapping data for the current cell
-            auto mappingData = std::find_if(p_mappings.begin(), p_mappings.end(), [&](const auto& pair) { return cell == pair.first; });
+            auto mappingData = std::find_if(p_mappings.begin(), p_mappings.end(), [&](const auto &pair)
+                                            { return cell == pair.first; });
             if (mappingData != p_mappings.end())
             {
                 if ((int)ticks % 5 == 0)
@@ -132,7 +135,7 @@ void Renderer::renderCSVStaticObjects(std::vector<std::vector<std::string>> p_ma
                     SDL_Rect *p_hitbox = new SDL_Rect{((cellcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET) - lonePlayerInstance->g_x, ((rowcounter * int_DEFAULT_TEXTURE_MULTIPLIER) - int_DEFAULT_TEXTURE_OFFSET) - lonePlayerInstance->g_y, int_DEFAULT_TEXTURE_SIZE, int_DEFAULT_TEXTURE_SIZE};
                     double xDistance = std::fabs((lonePlayerInstance->g_hitbox.x - p_hitbox->x));
                     double yDistance = std::fabs((lonePlayerInstance->g_hitbox.y - p_hitbox->y));
-                    if (xDistance <= globals::GLOBAL_userScreenWidth/2 + 10 && yDistance <= globals::GLOBAL_userScreenHeight/2 + 10)
+                    if (xDistance <= globals::GLOBAL_userScreenWidth / 2 + 10 && yDistance <= globals::GLOBAL_userScreenHeight / 2 + 10)
                     {
                         g_staticHitboxes.push_back(p_hitbox);
                         staticObjectsNotToRender.erase(std::remove(staticObjectsNotToRender.begin(), staticObjectsNotToRender.end(), std::make_pair(cellcounter, rowcounter)), staticObjectsNotToRender.end());

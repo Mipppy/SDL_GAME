@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <tuple>
 #include "entity.hpp"
 
 std::vector<SDL_Rect *> g_staticHitboxes;

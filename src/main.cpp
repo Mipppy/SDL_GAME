@@ -11,6 +11,7 @@
 #include "sub/entity.hpp"
 #include "sub/player.hpp"
 #include "sub/collison.hpp"
+#include "sub/timer.hpp"
 #include "sub/gui.hpp"
 #include "sub/npc.hpp"
 #include "sub/console.hpp"
@@ -50,18 +51,18 @@ int main(int argc, char *argv[])
 		Uint32 elapsedTicks = currentTicks - prevTicks;
 
 		if (elapsedTicks < SCREEN_TICKS_PER_FRAME)
-		{		
-		rend.cleanUpStaticHitboxes();
-		EventHandler();
-		rend.clearRenderer();
-		rend.renderCSVStaticObjects(mapData, mappings, currentTicks);
-		rend.updateEntities();
-		rend.renderGUIElements();
-		rend.renderText();
-		rend.displayRenderedObjects();
+		{
+			rend.cleanUpStaticHitboxes();
+			EventHandler();
+			rend.clearRenderer();
+			rend.renderCSVStaticObjects(mapData, mappings, currentTicks);
+			rend.updateEntities();
+			rend.renderGUIElements();
+			rend.renderText();
+			rend.displayRenderedObjects();
 			SDL_Delay(SCREEN_TICKS_PER_FRAME - elapsedTicks);
-			currentTicks = SDL_GetTicks();			
-			elapsedTicks = currentTicks - prevTicks; 
+			currentTicks = SDL_GetTicks();
+			elapsedTicks = currentTicks - prevTicks;
 		}
 		prevTicks = currentTicks;
 	}
