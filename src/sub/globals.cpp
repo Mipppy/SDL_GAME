@@ -1,5 +1,6 @@
 #include "globals.hpp"
 #include "projectile.hpp"
+#include "entity.hpp"
 #include <vector>
 namespace globals {
     int GLOBAL_userScreenWidth = 0;

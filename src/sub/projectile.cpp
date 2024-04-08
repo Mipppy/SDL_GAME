@@ -29,18 +29,25 @@ void Projectile::initProjectile(Entity *p_owner, int p_w, int p_h, int p_x, int 
     id = activeProjectiles.size();
 }
 
-Entity* Projectile::checkCollison()
+Entity *Projectile::checkCollison()
 {
     Entity *possibleEntity = collison.rectCollison(g_hitbox);
-    if (possibleEntity != nullptr )
-    {
-            std::cout << possibleEntity << std::endl;
-
-        return possibleEntity;
-    }
-    return nullptr;
+    return possibleEntity;
 }
 
-void Projectile::update()
+void Projectile::sampleCollison()
 {
+    Entity *p_entityHit = checkCollison();
+    if (p_entityHit != nullptr && p_entityHit != g_owner && p_entityHit != dummyEntity)
+    {
+        g_hitEntity = p_entityHit;
+        p_entityHit->g_x = 0;
+        p_entityHit->g_y = 0;
+    }
+    else if (p_entityHit == dummyEntity)
+    {
+        markedForDeletion = true;
+    }
 }
+
+void Projectile::update() {}

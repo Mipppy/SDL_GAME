@@ -7,6 +7,7 @@
 #include <tuple>
 #include "entity.hpp"
 #include "projectile.hpp"
+#include "globals.hpp"
 std::vector<std::tuple<SDL_Rect *, int, int>> g_staticHitboxes;
 
 void Collison::checkCollisons(Entity *p_entity)
@@ -60,8 +61,6 @@ Entity* Collison::rectCollison(SDL_Rect p_rect)
     int rightA = p_rect.x + p_rect.w;
     int topA = p_rect.y;
     int bottomA = p_rect.y + p_rect.h;
-
-    // Check collision with static hitboxes
     for (auto& p_static : g_staticHitboxes)
     {
         SDL_Rect *hitbox = std::get<0>(p_static);
@@ -72,13 +71,9 @@ Entity* Collison::rectCollison(SDL_Rect p_rect)
 
         if (!(bottomA <= topB || leftA >= rightB || topA >= bottomB || rightA <= leftB))
         {
-            // Collision detected with static hitbox
-            std::cout << "static" << std::endl;
-            return nullptr; // You might want to return a pointer to the hitbox itself
+            return dummyEntity; 
         }
     }
-
-    // Check collision with entities
     for (auto& p_entity : allEntities)
     {
         SDL_Rect entityRect = p_entity->g_hitbox;
@@ -89,13 +84,10 @@ Entity* Collison::rectCollison(SDL_Rect p_rect)
 
         if (!(bottomA <= topB || leftA >= rightB || topA >= bottomB || rightA <= leftB))
         {
-            // Collision detected with entity
-            std::cout << "Entity" << std::endl;
             return p_entity;
         }
     }
 
-    // No collision detected
     return nullptr;
 }
 

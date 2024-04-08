@@ -7,6 +7,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <tuple>
 #include "sub/renderer.hpp"
 #include "sub/entity.hpp"
 #include "sub/player.hpp"

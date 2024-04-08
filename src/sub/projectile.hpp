@@ -21,10 +21,12 @@ public:
     Entity *g_owner = nullptr;
     Collison collison;
     Entity *g_hitEntity = nullptr;
+    bool markedForDeletion = false;
     SDL_Rect g_hitbox = {0, 0, 0, 0};
     long long unsigned int id = 0;
     Projectile();
     void initProjectile(Entity *p_owner, int p_w, int p_h, int p_x, int p_y, const char *p_path, SDL_Rect p_hitbox);
+    void sampleCollison();
     Entity* checkCollison();
     virtual void update();
     virtual ~Projectile();

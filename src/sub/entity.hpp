@@ -28,7 +28,7 @@ public:
 };
 
 Entity *createEntity(const char *p_type, std::vector<std::string> p_params);
-
+extern Entity* dummyEntity; 
 extern std::vector<Entity *> allEntities;
 
 #endif

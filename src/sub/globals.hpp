@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <vector>
 #include "projectile.hpp"
+#include "entity.hpp"
 // all global variables will reside here, such as vectors of all entities an etc, to avoid having to import that entire header just to use one variable
 namespace globals
 {

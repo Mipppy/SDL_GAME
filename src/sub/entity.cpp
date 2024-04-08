@@ -11,7 +11,7 @@
 #include "gameData/const.hpp"
 #include "utils.hpp"
 #include <string>
-
+Entity* dummyEntity = new Entity();
 std::vector<Entity *> allEntities;
 Entity::Entity() {}
 
