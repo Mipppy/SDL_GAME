@@ -4,6 +4,7 @@
 #include "gameData/const.hpp"
 #include "entity.hpp"
 #include "npc.hpp"
+#include "globals.hpp"
 #include <cstring>
 #include <iostream>
 #include <vector>
@@ -51,18 +52,22 @@ void Player::tickUpdate()
     if (wPress)
     {
         g_velY = g_velY - speed;
+        globals::random += 5;
     }
     if (lonePlayerInstance->sPress)
     {
         g_velY = g_velY + speed;
+        globals::random -= 5;
     }
     if (lonePlayerInstance->aPress)
     {
         g_velX = g_velX - speed;
+        globals::random += 10;
     }
     if (lonePlayerInstance->dPress)
     {
         g_velX = g_velX + speed;
+        globals::random -= 10;
     }
     // Nerf Diaganol Movement, as it's faster than walking
     if ((aPress || dPress) && (wPress || sPress))

@@ -3,10 +3,11 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <SDL2/SDL.h>
 namespace utils
 {
     extern void screenDemensions(int &p_screenWidth, int &p_screenHeight);
-    extern std::vector<const char*> split(const char* s, char delimiter);
+    extern bool collidingWithPlayer(SDL_Rect p_hitbox, double angle = 0);
 };
 
 #endif

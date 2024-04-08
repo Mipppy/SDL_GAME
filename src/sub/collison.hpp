@@ -6,13 +6,13 @@
 #include <tuple>
 #include "entity.hpp"
 
-extern std::vector<SDL_Rect *> g_staticHitboxes;
-
+extern std::vector<std::tuple<SDL_Rect*, int,int>> g_staticHitboxes;
 class Collison
 {
 public:
     Collison();
     ~Collison();
     void checkCollisons(Entity *p_entity);
+    Entity* rectCollison(SDL_Rect p_rect);
 };
 #endif

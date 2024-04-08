@@ -1,8 +1,10 @@
 #include "utils.hpp"
+#include "player.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <vector>
+#include <cmath>     
 #include <cstring>
 void utils::screenDemensions(int &p_screenWidth, int &p_screenHeight)
 {
@@ -13,15 +15,40 @@ void utils::screenDemensions(int &p_screenWidth, int &p_screenHeight)
     p_screenWidth = 1820;
     p_screenHeight = 720;
 }
-std::vector<const char*> splitString(const std::string& str, char delimiter) {
-    std::vector<const char*> tokens;
-    size_t start = 0;
-    size_t end = str.find(delimiter);
-    while (end != std::string::npos) {
-        tokens.push_back(str.substr(start, end - start).c_str());
-        start = end + 1;
-        end = str.find(delimiter, start);
+
+bool utils::collidingWithPlayer(SDL_Rect p_hitbox, double angle)
+{
+    int centerX = p_hitbox.x + (p_hitbox.w / 2);
+    int centerY = p_hitbox.y + (p_hitbox.h / 2);
+
+    int halfWidth = p_hitbox.w / 2;
+    int halfHeight = p_hitbox.h / 2;
+
+    int rotatedLeft = centerX - halfWidth;
+    int rotatedRight = centerX + halfWidth;
+    int rotatedTop = centerY - halfHeight;
+    int rotatedBottom = centerY + halfHeight;
+
+    float angleRad = angle * (M_PI / 180); 
+    int tempLeft = rotatedLeft;
+    rotatedLeft = centerX + (tempLeft - centerX) * std::cos(angleRad) - (rotatedTop - centerY) * std::sin(angleRad);
+    int tempRight = rotatedRight;
+    rotatedRight = centerX + (tempRight - centerX) * std::cos(angleRad) - (rotatedBottom - centerY) * std::sin(angleRad);
+    int tempTop = rotatedTop;
+    rotatedTop = centerY + (tempTop - centerY) * std::cos(angleRad) + (rotatedLeft - centerX) * std::sin(angleRad);
+    int tempBottom = rotatedBottom;
+    rotatedBottom = centerY + (tempBottom - centerY) * std::cos(angleRad) + (rotatedRight - centerX) * std::sin(angleRad);
+
+    int leftA = lonePlayerInstance->g_hitbox.x;
+    int rightA = lonePlayerInstance->g_hitbox.x + lonePlayerInstance->g_hitbox.w;
+    int topA = lonePlayerInstance->g_hitbox.y;
+    int bottomA = lonePlayerInstance->g_hitbox.y + lonePlayerInstance->g_hitbox.h;
+    if (rotatedBottom <= topA || rotatedLeft >= rightA || rotatedTop >= bottomA || rotatedRight <= leftA)
+    {
+        return false; 
     }
-    tokens.push_back(str.substr(start).c_str());
-    return tokens;
+    else
+    {
+        return true; 
+    }
 }

@@ -1,4 +1,4 @@
 Entity,x,y,params
 p,0,0
-npc,256,100
-npc, 1
+npc,256,700
+o,700,180

@@ -7,6 +7,7 @@
 #include "player.hpp"
 #include "globals.hpp"
 #include "npc.hpp"
+#include "octorock.hpp"
 #include "gameData/const.hpp"
 #include "utils.hpp"
 #include <string>
@@ -21,6 +22,7 @@ void Entity::initEntity(const char *p_path, int p_x, int p_y, SDL_Renderer *o_re
     p_renderer = o_renderer;
     g_path = (char *)p_path;
     g_texture = IMG_LoadTexture(o_renderer, p_path);
+
     // MUST BE IN **EVERY** CONSTRUCTOR!
     // allEntities.push_back(std::make_unique<Entity>(*this));
 }
@@ -52,7 +54,6 @@ void Entity::update()
     dst.w = int_DEFAULT_TEXTURE_SIZE;
     dst.h = int_DEFAULT_TEXTURE_SIZE;
     g_hitbox = dst;
-    double angle = 0.0;
     SDL_RenderCopyEx(p_renderer, g_texture, &src, &dst, angle, NULL, SDL_FLIP_NONE);
     if (g_velY < 0)
     {
@@ -102,6 +103,9 @@ Entity *createEntity(const char *p_type, std::vector<std::string> p_params)
         dialogue.push_back("test dialogue #5 ! lots of random words because 4 rows seems to be just a little, tiny, miniscule bit broken at the moment ");
         dialogue.push_back("test dialogue #6 ! and a bunch more of useless trash! ooh!  what's that, more trash! wow! even more useless text for testing!  I hate this!  and it goes on and on and on, forever, this has no bonds or limits");
         return new NPC(dialogue, 100, false);
+    }
+    else if (strcmp(p_type, "o") == 0) {
+        return new Octorock;
     }
     return nullptr;
 }

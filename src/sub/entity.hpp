@@ -15,6 +15,7 @@ public:
     int currentXDirection = 0;
     int currentYDirection = 0;
     int spriteSheetInstance = 0;
+    double angle = 0.0;
     unsigned int ticks = 0;
     char *g_path;
     SDL_Renderer *p_renderer;

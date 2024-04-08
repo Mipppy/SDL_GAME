@@ -6,8 +6,8 @@
 #include <iostream>
 #include <tuple>
 #include "entity.hpp"
-
-std::vector<SDL_Rect *> g_staticHitboxes;
+#include "projectile.hpp"
+std::vector<std::tuple<SDL_Rect *, int, int>> g_staticHitboxes;
 
 void Collison::checkCollisons(Entity *p_entity)
 {
@@ -17,10 +17,11 @@ void Collison::checkCollisons(Entity *p_entity)
     int bottomA = p_entity->g_hitbox.y + p_entity->g_hitbox.h;
     for (auto &p_static : g_staticHitboxes)
     {
-        int leftB = p_static->x;
-        int rightB = p_static->x + p_static->w;
-        int topB = p_static->y;
-        int bottomB = p_static->y + p_static->h;
+        SDL_Rect *hitbox = std::get<0>(p_static);
+        int leftB = hitbox->x;
+        int rightB = hitbox->x + hitbox->w;
+        int topB = hitbox->y;
+        int bottomB = hitbox->y + hitbox->h;
         if (bottomA <= topB || leftA >= rightB || topA >= bottomB || rightA <= leftB)
         {
             // nothing
@@ -52,6 +53,52 @@ void Collison::checkCollisons(Entity *p_entity)
         }
     }
 }
+
+Entity* Collison::rectCollison(SDL_Rect p_rect)
+{
+    int leftA = p_rect.x;
+    int rightA = p_rect.x + p_rect.w;
+    int topA = p_rect.y;
+    int bottomA = p_rect.y + p_rect.h;
+
+    // Check collision with static hitboxes
+    for (auto& p_static : g_staticHitboxes)
+    {
+        SDL_Rect *hitbox = std::get<0>(p_static);
+        int leftB = hitbox->x;
+        int rightB = hitbox->x + hitbox->w;
+        int topB = hitbox->y;
+        int bottomB = hitbox->y + hitbox->h;
+
+        if (!(bottomA <= topB || leftA >= rightB || topA >= bottomB || rightA <= leftB))
+        {
+            // Collision detected with static hitbox
+            std::cout << "static" << std::endl;
+            return nullptr; // You might want to return a pointer to the hitbox itself
+        }
+    }
+
+    // Check collision with entities
+    for (auto& p_entity : allEntities)
+    {
+        SDL_Rect entityRect = p_entity->g_hitbox;
+        int leftB = entityRect.x;
+        int rightB = entityRect.x + entityRect.w;
+        int topB = entityRect.y;
+        int bottomB = entityRect.y + entityRect.h;
+
+        if (!(bottomA <= topB || leftA >= rightB || topA >= bottomB || rightA <= leftB))
+        {
+            // Collision detected with entity
+            std::cout << "Entity" << std::endl;
+            return p_entity;
+        }
+    }
+
+    // No collision detected
+    return nullptr;
+}
+
 
 Collison::Collison()
 {

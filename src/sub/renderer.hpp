@@ -30,5 +30,6 @@ public:
     void render(const char *p_path, int p_x, int p_y, int p_h, int p_w, bool p_shouldOffset);
     void displayRenderedObjects();
     void renderText();
+    void renderProjectiles();
 };
 #endif

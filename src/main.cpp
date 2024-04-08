@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 	mappings.insert(std::make_pair("1", "resources/rock.png"));
 	mappings2.emplace("1", std::make_pair("resources/player/player_", "p"));
 	mappings2.emplace("2", std::make_pair("resources/rock.png", "npc"));
+	mappings2.emplace("3", std::make_pair("resources/octorock.png", "o"));
 	char path[] = "resources/test.csv";
 	char path2[] = "resources/teste.csv";
 	allGUIelements.clear();
@@ -49,7 +50,7 @@ int main(int argc, char *argv[])
 	{
 		Uint32 currentTicks = SDL_GetTicks();
 		Uint32 elapsedTicks = currentTicks - prevTicks;
-
+		globals::ticks = SDL_GetTicks();
 		if (elapsedTicks < SCREEN_TICKS_PER_FRAME)
 		{
 			rend.cleanUpStaticHitboxes();
@@ -59,6 +60,7 @@ int main(int argc, char *argv[])
 			rend.updateEntities();
 			rend.renderGUIElements();
 			rend.renderText();
+			rend.renderProjectiles();
 			rend.displayRenderedObjects();
 			SDL_Delay(SCREEN_TICKS_PER_FRAME - elapsedTicks);
 			currentTicks = SDL_GetTicks();
