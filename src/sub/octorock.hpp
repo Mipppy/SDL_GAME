@@ -18,7 +18,7 @@ public:
     int playerXDistance = 0;
     int playerYDistance = 0;
     double rad = 0;
-    OctorockProjectile currentProjectile;
+    OctorockProjectile* currentProjectile = nullptr;
     double speed = 1;
     Octorock();
     ~Octorock();

@@ -17,6 +17,7 @@ public:
     int g_x = 0;
     int g_velX = 0;
     int g_velY = 0;
+    bool wasInit = false;
     int g_y = 0;
     Entity *g_owner = nullptr;
     Collison collison;

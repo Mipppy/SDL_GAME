@@ -26,7 +26,7 @@ void EventHandler();
 Renderer rend;
 GUI gui;
 int main(int argc, char *argv[])
-{
+{ 
 	rend.initRenderer();
 	std::map<const char *, const char *> mappings;
 	std::map<const char *, std::pair<const char *, const char *>> mappings2;

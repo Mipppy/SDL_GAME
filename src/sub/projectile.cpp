@@ -2,6 +2,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include "projectile.hpp"
 #include "entity.hpp"
 #include "collison.hpp"
@@ -10,9 +12,15 @@ std::vector<Projectile *> activeProjectiles;
 Projectile::Projectile(){};
 Projectile::~Projectile()
 {
-    if (id >= 0 && id < activeProjectiles.size())
+    if (wasInit)
     {
-        activeProjectiles.erase(activeProjectiles.begin() + id);
+        auto it = std::find(activeProjectiles.begin(), activeProjectiles.end(), this);
+        if (it != activeProjectiles.end())
+        {
+
+            activeProjectiles.erase(it);
+        }
+
     }
 };
 
@@ -25,8 +33,8 @@ void Projectile::initProjectile(Entity *p_owner, int p_w, int p_h, int p_x, int 
     g_y = p_y;
     g_path = p_path;
     g_hitbox = p_hitbox;
+    wasInit = true;
     activeProjectiles.push_back(this);
-    id = activeProjectiles.size();
 }
 
 Entity *Projectile::checkCollison()

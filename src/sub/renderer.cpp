@@ -241,7 +241,10 @@ void Renderer::renderProjectiles()
 {
     for (auto p_projectile : activeProjectiles)
     {
-        p_projectile->update();
-        render(p_projectile->g_path, p_projectile->g_x, p_projectile->g_y, p_projectile->g_w, p_projectile->g_h, true);
+        if (p_projectile->wasInit)
+        {
+            p_projectile->update();
+            render(p_projectile->g_path, p_projectile->g_x, p_projectile->g_y, p_projectile->g_w, p_projectile->g_h, true);
+        }
     }
 }

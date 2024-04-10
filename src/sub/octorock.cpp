@@ -35,11 +35,10 @@ double Octorock::facePlayer()
 
 void Octorock::tickUpdate()
 {
-    if (currentProjectile.markedForDeletion) currentProjectile = OctorockProjectile();
     playerXDistance = g_hitbox.x - lonePlayerInstance->g_hitbox.x;
     playerYDistance = g_hitbox.y - lonePlayerInstance->g_hitbox.y;
     double ticks = globals::ticks / 7;
-    if ((int)ticks % 20 == 0)
+    if ((int)ticks % 10 == 0)
     {
         double playerAngle = facePlayer();
         int calcAngle = std::round(static_cast<double>(playerAngle) / 90) * 90;
@@ -63,26 +62,30 @@ void Octorock::tickUpdate()
             g_velX = speed;
         }
     }
-    if ((int)ticks % 200 == 0)
+    if ((int)ticks % 100 == 0)
     {
-        currentProjectile = OctorockProjectile();
-
-        currentProjectile.initProjectile(this, 32, 32, g_x + 32, g_y + 32, "resources/octorock_rock.png", {32, 32, 32, 32});
+        if (currentProjectile != nullptr)
+        {
+            delete currentProjectile;
+            currentProjectile = nullptr;
+        }
+        currentProjectile = new OctorockProjectile();
+        currentProjectile->initProjectile(this, 32, 32, g_x + 32, g_y + 32, "resources/octorock_rock.png", {32, 32, 32, 32});
         if (angle == 90)
         {
-            currentProjectile.g_velX = -5;
+            currentProjectile->g_velX = -7.5;
         }
         else if (angle == 0)
         {
-            currentProjectile.g_velY = 5;
+            currentProjectile->g_velY = 7.5;
         }
         else if (angle == 180)
         {
-            currentProjectile.g_velY = -5;
+            currentProjectile->g_velY = -7.5;
         }
         else if (angle == -90)
         {
-            currentProjectile.g_velX = 5;
+            currentProjectile->g_velX = 7.5;
         }
     }
 }
