@@ -52,3 +52,16 @@ bool utils::collidingWithPlayer(SDL_Rect p_hitbox, double angle)
         return true; 
     }
 }
+
+double utils::getPlayerAngleFromPoint(int p_x, int p_y) {
+    int playerXDistance = p_x - lonePlayerInstance->g_hitbox.x;
+    int playerYDistance = p_y - lonePlayerInstance->g_hitbox.y;
+    double rad = std::atan2(playerYDistance, playerXDistance);
+    return rad * (180.0 / M_PI) + 90;
+}
+double utils::getPlayerAngleFromPoint(SDL_Rect p_rect) {
+    int playerXDistance = p_rect.x - lonePlayerInstance->g_hitbox.x;
+    int playerYDistance = p_rect.y - lonePlayerInstance->g_hitbox.y;
+    double rad = std::atan2(playerYDistance, playerXDistance);
+    return rad * (180.0 / M_PI) + 90;
+}

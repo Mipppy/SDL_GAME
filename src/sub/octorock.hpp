@@ -3,7 +3,7 @@
 #include "projectile.hpp"
 #include "entity.hpp"
 #include <SDL2/SDL.h>
-
+#include <memory>
 class OctorockProjectile : public Projectile
 {
 public:
@@ -16,14 +16,14 @@ class Octorock : public Entity
 {
 public:
     int playerXDistance = 0;
+    int projectileSpeed = 7.5;
     int playerYDistance = 0;
     double rad = 0;
-    OctorockProjectile* currentProjectile = nullptr;
+    OctorockProjectile currentProjectile = OctorockProjectile();
     double speed = 1;
     Octorock();
     ~Octorock();
     void tickUpdate() override;
-    double facePlayer();
 };
 
 #endif

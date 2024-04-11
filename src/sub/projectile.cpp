@@ -20,7 +20,6 @@ Projectile::~Projectile()
 
             activeProjectiles.erase(it);
         }
-
     }
 };
 
@@ -50,11 +49,14 @@ void Projectile::sampleCollison()
     {
         g_hitEntity = p_entityHit;
         p_entityHit->g_x = 0;
-        p_entityHit->g_y = 0;
     }
     else if (p_entityHit == dummyEntity)
     {
-        markedForDeletion = true;
+        hitStatic = true;
+    }
+    else {
+        g_hitEntity = nullptr;
+        hitStatic = false;
     }
 }
 

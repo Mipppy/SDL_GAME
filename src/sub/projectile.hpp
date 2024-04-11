@@ -18,13 +18,14 @@ public:
     int g_velX = 0;
     int g_velY = 0;
     bool wasInit = false;
+    bool shouldRender = true;
     int g_y = 0;
     Entity *g_owner = nullptr;
     Collison collison;
+    Projectile* thisPtr = this;
     Entity *g_hitEntity = nullptr;
-    bool markedForDeletion = false;
+    bool hitStatic = false;
     SDL_Rect g_hitbox = {0, 0, 0, 0};
-    long long unsigned int id = 0;
     Projectile();
     void initProjectile(Entity *p_owner, int p_w, int p_h, int p_x, int p_y, const char *p_path, SDL_Rect p_hitbox);
     void sampleCollison();
