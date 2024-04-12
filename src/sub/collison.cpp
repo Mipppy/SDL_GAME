@@ -55,7 +55,7 @@ void Collison::checkCollisons(Entity *p_entity)
     }
 }
 
-Entity* Collison::rectCollison(SDL_Rect p_rect)
+Entity* rectCollison(SDL_Rect p_rect)
 {
     int leftA = p_rect.x;
     int rightA = p_rect.x + p_rect.w;

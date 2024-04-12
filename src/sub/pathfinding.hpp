@@ -9,7 +9,8 @@ class PathfindingOperation
 {
 public:
     PathfindingOperation();
-    ~PathfindingOperation();
+    virtual ~PathfindingOperation();
+    virtual void pathfind();
 };
 
 class PathfindingPointOperation : public PathfindingOperation
@@ -17,6 +18,7 @@ class PathfindingPointOperation : public PathfindingOperation
 public:
     PathfindingPointOperation(int p_x, int p_y);
     ~PathfindingPointOperation();
+    void pathfind() override;
     int g_x;
     int g_y;
 };
@@ -26,6 +28,7 @@ class PathfindingEntityOperation : public PathfindingOperation
 public:
     PathfindingEntityOperation(Entity *p_entity);
     ~PathfindingEntityOperation();
+    void pathfind() override;
     Entity *targetEntity;
 };
 
@@ -34,7 +37,7 @@ class Pathfinder
 public:
     Entity *g_entity;
     std::vector<PathfindingOperation> operations;
-    bool currentlyPathfinding = false;
+    bool enabled = false;
     Pathfinder(Entity *p_entity);
     ~Pathfinder();
     void pushBackPointOperation(int p_x, int p_y);
@@ -42,6 +45,7 @@ public:
     void clearOperations();
     void removeOperation(int p_index);
     void pathfind();
+    void cancelPathfindingOperation();
 };
 
 #endif

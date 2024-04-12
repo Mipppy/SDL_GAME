@@ -4,7 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <vector>
-#include <cmath>     
+#include <cmath>
 #include <cstring>
 void utils::screenDemensions(int &p_screenWidth, int &p_screenHeight)
 {
@@ -29,7 +29,7 @@ bool utils::collidingWithPlayer(SDL_Rect p_hitbox, double angle)
     int rotatedTop = centerY - halfHeight;
     int rotatedBottom = centerY + halfHeight;
 
-    float angleRad = angle * (M_PI / 180); 
+    float angleRad = angle * (M_PI / 180);
     int tempLeft = rotatedLeft;
     rotatedLeft = centerX + (tempLeft - centerX) * std::cos(angleRad) - (rotatedTop - centerY) * std::sin(angleRad);
     int tempRight = rotatedRight;
@@ -45,23 +45,49 @@ bool utils::collidingWithPlayer(SDL_Rect p_hitbox, double angle)
     int bottomA = lonePlayerInstance->g_hitbox.y + lonePlayerInstance->g_hitbox.h;
     if (rotatedBottom <= topA || rotatedLeft >= rightA || rotatedTop >= bottomA || rotatedRight <= leftA)
     {
-        return false; 
+        return false;
     }
     else
     {
-        return true; 
+        return true;
     }
 }
 
-double utils::getPlayerAngleFromPoint(int p_x, int p_y) {
+double utils::getPlayerAngleFromPoint(int p_x, int p_y)
+{
     int playerXDistance = p_x - lonePlayerInstance->g_hitbox.x;
     int playerYDistance = p_y - lonePlayerInstance->g_hitbox.y;
     double rad = std::atan2(playerYDistance, playerXDistance);
     return rad * (180.0 / M_PI) + 90;
 }
-double utils::getPlayerAngleFromPoint(SDL_Rect p_rect) {
+double utils::getPlayerAngleFromPoint(SDL_Rect p_rect)
+{
     int playerXDistance = p_rect.x - lonePlayerInstance->g_hitbox.x;
     int playerYDistance = p_rect.y - lonePlayerInstance->g_hitbox.y;
     double rad = std::atan2(playerYDistance, playerXDistance);
     return rad * (180.0 / M_PI) + 90;
+}
+
+struct utils::hitboxBounds
+{
+public:
+    hitboxBounds(SDL_Point tR, SDL_Point tL, SDL_Point bR, SDL_Point bL) : topRight(tR), topLeft(tL), bottomRight(bR), bottomLeft(bL) {};
+    SDL_Point topRight;
+    SDL_Point topLeft;
+    SDL_Point bottomRight;
+    SDL_Point bottomLeft;
+};
+
+utils::hitboxBounds utils::getHitboxPositionData(SDL_Rect p_rect)
+{
+    int leftA = p_rect.x;
+    int rightA = p_rect.x + p_rect.w;
+    int topA = p_rect.y;
+    int bottomA = p_rect.y + p_rect.h;
+
+    SDL_Point topLeft = {leftA, topA};
+    SDL_Point topRight = {rightA, topA};
+    SDL_Point bottomLeft = {leftA, bottomA};
+    SDL_Point bottomRight = {rightA, bottomA};
+    return utils::hitboxBounds(topRight, topLeft, bottomRight, bottomLeft);
 }

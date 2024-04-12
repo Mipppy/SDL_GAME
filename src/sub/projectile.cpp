@@ -38,7 +38,7 @@ void Projectile::initProjectile(Entity *p_owner, int p_w, int p_h, int p_x, int 
 
 Entity *Projectile::checkCollison()
 {
-    Entity *possibleEntity = collison.rectCollison(g_hitbox);
+    Entity *possibleEntity = rectCollison(g_hitbox);
     return possibleEntity;
 }
 

@@ -13,6 +13,7 @@ public:
     Collison();
     ~Collison();
     void checkCollisons(Entity *p_entity);
-    Entity* rectCollison(SDL_Rect p_rect);
+    void rectCollison();
 };
+Entity* rectCollison(SDL_Rect);
 #endif

@@ -21,7 +21,6 @@ public:
     bool shouldRender = true;
     int g_y = 0;
     Entity *g_owner = nullptr;
-    Collison collison;
     Projectile* thisPtr = this;
     Entity *g_hitEntity = nullptr;
     bool hitStatic = false;
