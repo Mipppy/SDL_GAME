@@ -14,7 +14,8 @@ void OctorockProjectile::update()
     g_hitbox.x = g_x - lonePlayerInstance->g_x;
     g_hitbox.y = g_y - lonePlayerInstance->g_y;
     sampleCollison();
-    if (hitStatic || (g_hitEntity != nullptr && g_hitEntity != dummyEntity) ) {
+    if (hitStatic || (g_hitEntity != nullptr && g_hitEntity != dummyEntity))
+    {
         shouldRender = false;
         g_x = g_owner->g_x;
         g_y = g_owner->g_y;
@@ -27,10 +28,14 @@ Octorock::Octorock()
 {
     allEntities.push_back(this);
     angle = 180;
+    pathfinder->enabled = true;
+    degreesOfFreedom = 90;
+    pathfinder->pushBackPointOperation(700, 100);
     currentProjectile.initProjectile(this, 32, 32, g_x + 32, g_y + 32, "resources/octorock_rock.png", {32, 32, 32, 32});
 }
 Octorock::~Octorock()
 {
+    delete pathfinder;
 }
 
 void Octorock::tickUpdate()
@@ -86,4 +91,5 @@ void Octorock::tickUpdate()
             currentProjectile.g_velX = projectileSpeed;
         }
     }
+    // pathfinder->pathfind();
 }

@@ -10,11 +10,13 @@ class Entity
 {
 public:
     SDL_Texture *g_texture;
+    int degreesOfFreedom = 90;
     int g_x = 0, g_y = 0, g_velX = 0, g_velY = 0;
     SDL_Rect g_hitbox = {0, 0, 0, 0};
     int currentXDirection = 0;
     int currentYDirection = 0;
     int spriteSheetInstance = 0;
+    double speed = 3;
     double angle = 0.0;
     unsigned int ticks = 0;
     char *g_path;

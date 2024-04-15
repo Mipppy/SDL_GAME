@@ -91,3 +91,14 @@ utils::hitboxBounds utils::getHitboxPositionData(SDL_Rect p_rect)
     SDL_Point bottomRight = {rightA, bottomA};
     return utils::hitboxBounds(topRight, topLeft, bottomRight, bottomLeft);
 }
+
+double utils::getAngleBetweenTwoPoints(SDL_Point p1, SDL_Point p2) {
+    int playerXDistance = std::fabs(p1.x - p2.x);
+    int playerYDistance = std::fabs(p1.y - p2.y);
+    double rad = std::atan2(playerYDistance, playerXDistance);
+    return rad * (180.0 / M_PI) + 90;
+}
+
+double utils::distanceBetweenTwoPoints(SDL_Point p1, SDL_Point p2) {
+    return std::sqrt(((p1.x - p2.x)*2) + ((p1.y - p2.y)*2));
+}

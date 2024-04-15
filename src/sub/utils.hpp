@@ -13,6 +13,8 @@ namespace utils
     extern double getPlayerAngleFromPoint(int p_x, int p_y);
     extern double getPlayerAngleFromPoint(SDL_Rect p_rect);
     extern hitboxBounds getHitboxPositionData(SDL_Rect);
+    extern double getAngleBetweenTwoPoints(SDL_Point p1, SDL_Point p2);
+    extern double distanceBetweenTwoPoints(SDL_Point p1, SDL_Point p2);
 };
 
 #endif
